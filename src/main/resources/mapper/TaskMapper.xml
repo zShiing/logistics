@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.deslak.dao.TaskDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.deslak.entity.Task">
+        <result column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="daily_id" property="dailyId"/>
+        <result column="cement_id" property="cementId"/>
+        <result column="section_id" property="sectionId"/>
+        <result column="car_id" property="carId"/>
+        <result column="route_id" property="routeId"/>
+        <result column="driver" property="driver"/>
+        <result column="tasks" property="tasks"/>
+        <result column="real_up" property="realUp"/>
+        <result column="real_up_img" property="realUpImg"/>
+        <result column="real_down" property="realDown"/>
+        <result column="real_down_img" property="realDownImg"/>
+        <result column="isOK" property="isOK"/>
+        <result column="state" property="state"/>
+        <result column="weight2" property="weight2"/>
+        <result column="weight" property="weight"/>
+        <result column="pass1" property="pass1"/>
+        <result column="pass2" property="pass2"/>
+        <result column="remark" property="remark"/>
+        <result column="fin_time" property="finTime"/>
+        <result column="up_time" property="upTime"/>
+        <result column="down_time" property="downTime"/>
+        <result column="isUp" property="isUp"/>
+        <result column="isDown" property="isDown"/>
+        <result column="pici" property="pici"/>
+        <result column="license" property="license"/>
+        <result column="batch" property="batch"/>
+        <result column="gen_date" property="genDate"/>
+        <result column="huowu_id" property="huowuId"/>
+        <result column="huowu_name" property="huowuName"/>
+    </resultMap>
+
+    <select id="getTaskByPage" resultMap="BaseResultMap">
+        select task_.code as code, task_.huowu_name as huowu_name, task_.tasks as tasks, car_.license as license, task_.remark as remark,
+        task_.up_time as up_time, task_.down_time as down_time
+        from task task_
+        left join car car_ on task_.car_id = car_.id
+    </select>
+
+    <select id="fuel" resultMap="BaseResultMap">
+        select task_.code as code, task_.huowu_name as huowu_name, task_.tasks as tasks, car_.license as license, task_.remark as remark,
+        task_.up_time as up_time, task_.down_time as down_time
+        from task task_
+        left join car car_ on task_.car_id = car_.id
+        <if test="plateNum != null">
+            where car_.license = #{plateNum}
+        </if>
+    </select>
+</mapper>
