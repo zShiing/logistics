@@ -18,7 +18,7 @@ public interface TaskDao {
      * 分页查找任务
      * @return
      */
-    List<Task> getTaskByPage();
+    List<Task> getTasks();
 
     /**
      * 根据车票查询任务单

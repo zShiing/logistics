@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.deslak.dao.HistoryDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DailyReviewHistoryResultMap" type="cn.deslak.entity.DailyReviewHistory">
+        <result column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="section_id" property="sectionId"/>
+        <result column="section" property="section"/>
+        <result column="capacity" property="capacity"/>
+        <result column="stock" property="stock"/>
+        <result column="stock_ource" property="stockSource"/>
+        <result column="bite" property="bite"/>
+        <result column="stock_ask_time" property="stockAskTime"/>
+        <result column="day_dosage_ask" property="dayDosageAsk"/>
+        <result column="half_month" property="halfMonth"/>
+        <result column="day_dosage" property="dayDosage"/>
+        <result column="on_road" property="onRoad"/>
+        <result column="estimated_shipments" property="estimatedShipments"/>
+        <result column="route_time" property="routeTime"/>
+        <result column="car_type" property="carType"/>
+        <result column="car_type_weight" property="carTypeWeight"/>
+        <result column="task_nums" property="taskNums"/>
+        <result column="first_task" property="firstTask"/>
+        <result column="first_overplus" property="firstOverplus"/>
+        <result column="second_task" property="secondTask"/>
+        <result column="second_overplus" property="secondOverplus"/>
+        <result column="third_task" property="thirdTask"/>
+        <result column="remark" property="remark"/>
+        <result column="add_time" property="addTime"/>
+        <result column="is_OK" property="isOk"/>
+        <result column="statue" property="statue"/>
+        <result column="planeStock" property="planeStock"/>
+        <result column="materia" property="materia"/>
+        <result column="batch" property="batch"/>
+        <result column="huowu_id" property="huowuId"/>
+        <result column="huowu_id" property="huowuName"/>
+        <result column="gen_date" property="genDate"/>
+    </resultMap>
+
+    <select id="fetchDailyReviewHistory" resultMap="DailyReviewHistoryResultMap">
+        select daily_history_.code as code, daily_history_.section as section, daily_history_.tasks as tasks, car_.license as license, daily_history_.remark as remark,
+        daily_history_.up_time as up_time, daily_history_.down_time as down_time
+        from daily_history daily_history_
+        left join car car_ on daily_history_.car_id = car_.id
+    </select>
+</mapper>

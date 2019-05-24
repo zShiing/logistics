@@ -30,7 +30,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public PageInfo<Task> getTaskByPage() {
-        List<Task> list = taskDao.getTaskByPage();
+        List<Task> list = taskDao.getTasks();
         PageInfo<Task> pageInfo = new PageInfo(list);
         pageInfo = addValueForProps(pageInfo);
         return pageInfo;

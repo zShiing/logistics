@@ -38,7 +38,7 @@ public class DailyReviewHistory {
     /**
      *库存数据来源
      */
-    private int stock_source;
+    private int stockSource;
     /**
      *库存容量比
      */
