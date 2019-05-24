@@ -2,6 +2,9 @@ package cn.deslak.entity;
 
 import lombok.Data;
 
+/**
+ * @author zhang_xin on 2019/05/23.
+ */
 @Data
 public class Truck {
 

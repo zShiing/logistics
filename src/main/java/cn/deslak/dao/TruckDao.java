@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author zhang_xin on 2019/05/23.
+ */
 @Repository
 @Mapper
 public interface TruckDao {

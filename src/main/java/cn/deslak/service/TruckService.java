@@ -4,7 +4,9 @@ import cn.deslak.entity.Truck;
 
 import java.util.List;
 
-
+/**
+ * @author zhang_xin on 2019/05/23.
+ */
 public interface TruckService extends BaseService{
 
     /**

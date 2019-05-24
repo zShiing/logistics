@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * @author zhang_xin on 2019/05/23.
+ */
 @RequestMapping("/base_info")
 @Controller
 public class TruckController extends BaseController{

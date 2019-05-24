@@ -6,6 +6,9 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
+/**
+ * @author zhang_xin on 2019/05/23.
+ */
 public interface TaskService extends BaseService{
 
     /**

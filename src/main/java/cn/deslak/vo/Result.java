@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author zhang_xin on 2017/11/13.
+ * @author zhang_xin on 2019/05/24.
  */
 @Data
 public final class Result<T> implements Serializable {

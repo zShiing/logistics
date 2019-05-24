@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
+/**
+ * @author zhang_xin on 2019/05/23.
+ */
 @Configuration
 public class PageHelperConfig {
 
