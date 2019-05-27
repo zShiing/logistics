@@ -1,22 +1,22 @@
 package cn.deslak.dao;
 
-import cn.deslak.entity.Truck;
+import cn.deslak.entity.Cement;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * @author zhang_xin on 2019/05/23.
+ * @author zhang_xin on 2019/05/27.
  */
-@Repository
 @Mapper
-public interface TruckDao {
+@Repository
+public interface CementDao {
 
     /**
-     * 获取所有车辆信息
+     * 获取所有水泥厂
      * @return
      */
-    List<Truck> fetchAllTrucks();
+    List<Cement> fetchAllCement();
 
 }

@@ -1,8 +1,9 @@
 package cn.deslak.controller;
 
 import cn.deslak.entity.DailyReviewHistory;
+import cn.deslak.entity.TaskReviewHistory;
 import cn.deslak.service.HistoryService;
-import cn.deslak.vo.Result;
+import cn.deslak.vo.JsonResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,23 @@ public class HistoryController extends BaseController{
 
     @ResponseBody
     @GetMapping("/daily_review_history_fetch")
-    public Result dailyReviewHistoryFetch(Integer page, Integer limit) {
+    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit) {
         PageHelper.startPage(page,limit);
-        PageInfo<DailyReviewHistory> pageInfo = historyService.getDailyReviewHistoryByPage();
-        Result<DailyReviewHistory> result = Result.createSuccess();
-        result.setCount(pageInfo.getTotal());
-        result.setData(pageInfo.getList());
+        PageInfo<DailyReviewHistory> pageInfo = historyService.fetchDailyReviewHistoryByPage();
+        JsonResult result = JsonResult.createSuccess();
+        result.putData("count", pageInfo.getTotal());
+        result.putData("list", pageInfo.getList());
+        return result;
+    }
+
+    @ResponseBody
+    @GetMapping("/task_review_history_fetch")
+    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit, String batch, String cementId, String sectionId) {
+        PageHelper.startPage(page,limit);
+        PageInfo<TaskReviewHistory> pageInfo = historyService.fetchTaskReviewHistory(batch, cementId, sectionId);
+        JsonResult result = JsonResult.createSuccess();
+        result.putData("list", pageInfo.getList());
+        result.putData("count", pageInfo.getTotal());
         return result;
     }
 }

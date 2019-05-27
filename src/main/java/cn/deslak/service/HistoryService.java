@@ -1,6 +1,7 @@
 package cn.deslak.service;
 
 import cn.deslak.entity.DailyReviewHistory;
+import cn.deslak.entity.TaskReviewHistory;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -8,6 +9,8 @@ import com.github.pagehelper.PageInfo;
  */
 public interface HistoryService extends BaseService{
 
-    PageInfo<DailyReviewHistory> getDailyReviewHistoryByPage();
+    PageInfo<DailyReviewHistory> fetchDailyReviewHistoryByPage();
+
+    PageInfo<TaskReviewHistory> fetchTaskReviewHistory(String batch, String cementId, String sectionId);
 
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.deslak.dao.CementDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.deslak.entity.Cement">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="position" property="position"/>
+        <result column="location" property="location"/>
+        <result column="area" property="area"/>
+        <result column="contact" property="contact"/>
+        <result column="tel" property="tel"/>
+        <result column="radio" property="radio"/>
+    </resultMap>
+
+    <select id="fetchAllCement" resultMap="BaseResultMap">
+        select cement.id, cement.name, cement.position, cement.location, cement.area, cement.contact, cement.tel, cement.radio
+        from cement
+    </select>
+</mapper>

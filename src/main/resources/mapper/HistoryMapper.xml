@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.deslak.dao.HistoryDao">
-    <!-- 通用查询映射结果 -->
+
+    <!-- 日计划审核历史 -->
     <resultMap id="DailyReviewHistoryResultMap" type="cn.deslak.entity.DailyReviewHistory">
         <result column="id" property="id"/>
         <result column="code" property="code"/>
@@ -36,12 +37,72 @@
         <result column="huowu_id" property="huowuId"/>
         <result column="huowu_id" property="huowuName"/>
         <result column="gen_date" property="genDate"/>
+        <result column="isUpOver" property="isUpOver"/>
+        <result column="isTraverOver" property="isTraverOver"/>
+    </resultMap>
+
+    <!-- 任务审核历史 -->
+    <resultMap id="TaskReviewHistoryResultMap" type="cn.deslak.entity.TaskReviewHistory">
+        <result column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="daily_id" property="dailyId"/>
+        <result column="dailyCode" property="dailyCode"/>
+        <result column="cement_id" property="cementId"/>
+        <result column="section_id" property="sectionId"/>
+        <result column="cementName" property="cementName"/>
+        <result column="sectionName" property="sectionName"/>
+        <result column="car_id" property="carId"/>
+        <result column="route_id" property="routeId"/>
+        <result column="driver" property="driver"/>
+        <result column="tasks" property="tasks"/>
+        <result column="real_up" property="realUp"/>
+        <result column="real_up_img" property="realUpImg"/>
+        <result column="real_down" property="realDown"/>
+        <result column="real_down_img" property="realDownImg"/>
+        <result column="isOK" property="isOK"/>
+        <result column="state" property="state"/>
+        <result column="weight2" property="weight2"/>
+        <result column="weight" property="weight"/>
+        <result column="pass1" property="pass1"/>
+        <result column="pass2" property="pass2"/>
+        <result column="remark" property="remark"/>
+        <result column="fin_time" property="finTime"/>
+        <result column="up_time" property="upTime"/>
+        <result column="down_time" property="downTime"/>
+        <result column="isUp" property="isUp"/>
+        <result column="isDown" property="isDown"/>
+        <result column="pici" property="pici"/>
+        <result column="license" property="license"/>
+        <result column="batch" property="batch"/>
+        <result column="gen_date" property="genDate"/>
+        <result column="isUpOver" property="isUpOver"/>
+        <result column="isTraverOver" property="isTraverOver"/>
+        <result column="huowu_id" property="huowuId"/>
+        <result column="huowu_name" property="huowuName"/>
     </resultMap>
 
     <select id="fetchDailyReviewHistory" resultMap="DailyReviewHistoryResultMap">
-        select daily_history_.code as code, daily_history_.section as section, daily_history_.tasks as tasks, car_.license as license, daily_history_.remark as remark,
-        daily_history_.up_time as up_time, daily_history_.down_time as down_time
-        from daily_history daily_history_
-        left join car car_ on daily_history_.car_id = car_.id
+        select daily_state_history_.cement as cement, daily_state_history_.section as section, daily_state_history_.plan as plan, daily_state_history_.plan as plan,
+        daily_state_history_.edit_plan as edit_plan
+        from daily_state_history daily_state_history_
+    </select>
+
+    <select id="fetchTaskReviewHistory" resultMap="TaskReviewHistoryResultMap">
+        select task_history_.code as code, cement_.name as cementName, section_.name as sectionName, daily_.code as dailyCode,
+        task_history_.batch as batch, task_history_.tasks as tasks, task_history_.real_up as realUp, task_history_.real_down as realDown
+        from task_history task_history_
+        inner join cement cement_ on task_history_.cement_id = cement_.id
+        inner join section section_ on task_history_.section_id = section_.id
+        inner join daily daily_ on task_history_.daily_id = daily_id
+        <if test="batch != null">
+            where task_history_.batch like '#{batch}'
+        </if>
+        <if test="cementId != null">
+            and task_history_.cement_id like '#{cementId}'
+        </if>
+        <if test="sectionId != null">
+            and task_history_.section_id like '#{sectionId}'
+        </if>
+        group by code
     </select>
 </mapper>

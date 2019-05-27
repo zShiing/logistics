@@ -69,7 +69,7 @@
         var table = layui.table;
         //检查项目添加到下拉框中
         $.ajax({
-            url: '/base_info/trucks',
+            url: '/truck/trucks',
             dataType: 'json',
             type: 'get',
             success: function (data) {
@@ -85,6 +85,14 @@
             ,cellMinWidth: 80
             ,page: true
             ,event:true
+            ,parseData: function (res) {
+                var data = res.data;
+                return {
+                    'code': res.code, //解析接口状态
+                    'count': data.count,
+                    'data': data.list,
+                }
+            }
             ,cols: [
                 [
                     {type:'numbers', width:80, title: ' '}
@@ -115,6 +123,14 @@
                 totalRow:true,
                 toolbar:true,
                 event:true,
+                parseData: function (res) {
+                    var data = res.data;
+                    return {
+                        'code': res.code, //解析接口状态
+                        'count': data.count,
+                        'data': data.list,
+                    }
+                },
                 cols: [
                     [
                         {type:'numbers', width:80, title: ' '}

@@ -1,6 +1,6 @@
 package cn.deslak.config;
 
-import cn.deslak.vo.Result;
+import cn.deslak.vo.JsonResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,8 +13,8 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public Result defaultExceptionHandler(Exception e) {
-        Result result = Result.createFailed();
+    public JsonResult defaultExceptionHandler(Exception e) {
+        JsonResult result = JsonResult.createFaild();
         result.setMsg(e.getMessage());
         return result;
     }

@@ -18,8 +18,8 @@ public class TruckServiceImpl implements TruckService {
     private TruckDao truckDao;
 
     @Override
-    public List<Truck> getAll() {
-        return truckDao.gatAll();
+    public List<Truck> fetchAllTrucks() {
+        return truckDao.fetchAllTrucks();
     }
 
 }

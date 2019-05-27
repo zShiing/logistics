@@ -12,7 +12,7 @@
         <result column="position" property="position"/>
     </resultMap>
 
-    <select id="gatAll" resultMap="BaseResultMap">
+    <select id="fetchAllTrucks" resultMap="BaseResultMap">
         select car.id, car.moto_id, car.type, car.type, car.license, car.driver, car.state from car
     </select>
 </mapper>

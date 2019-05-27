@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
- * @author zhang_xin on 2019/05/23.
+ * @author zhang_xin on 2019/05/27.
  */
 @Data
-public class Task {
+public class TaskReviewHistory {
 
     /**
      * ID
@@ -23,14 +23,17 @@ public class Task {
      * 所属计划ID
      */
     private int dailyId;
+    private String dailyCode;
     /**
      *水泥厂ID
      */
     private int cementId;
+    private String cementName;
     /**
      *标段ID
      */
     private int sectionId;
+    private String sectionName;
     /**
      *车辆ID
      */
@@ -195,16 +198,4 @@ public class Task {
      *是否运输超时
      */
     private Integer isTraverOver;
-    /**
-     *消耗燃料(升)
-     */
-    private BigDecimal fuel;
-    /**
-     *运输路程(千米)
-     */
-    private BigDecimal mileage;
-    /**
-     *驾驶时间(秒)
-     */
-    private Integer drivingTime;
 }

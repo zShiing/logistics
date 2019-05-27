@@ -1,27 +1,28 @@
 package cn.deslak.controller;
 
-import cn.deslak.service.TruckService;
+import cn.deslak.service.CementService;
 import cn.deslak.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @author zhang_xin on 2019/05/23.
+ * @author zhang_xin on 2019/05/27.
  */
-@RequestMapping("/truck")
+@RequestMapping("/cement")
 @Controller
-public class TruckController extends BaseController{
+public class CementController extends BaseController{
 
     @Autowired
-    private TruckService truckService;
+    private CementService cementService;
 
     @ResponseBody
-    @RequestMapping("/trucks")
-    public JsonResult fetchAllTrucks() {
+    @GetMapping("/cements")
+    public JsonResult fetchAllCement() {
         JsonResult jsonResult = JsonResult.createSuccess();
-        jsonResult.putData("list", truckService.fetchAllTrucks());
+        jsonResult.putData("list", cementService.fetchAllCement());
         return jsonResult;
     }
 

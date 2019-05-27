@@ -2,7 +2,7 @@ package cn.deslak.controller;
 
 import cn.deslak.entity.Task;
 import cn.deslak.service.TaskService;
-import cn.deslak.vo.Result;
+import cn.deslak.vo.JsonResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,23 +23,23 @@ public class TaskController {
 
     @ResponseBody
     @GetMapping("/find")
-    public Result task(Integer page, Integer limit) {
+    public JsonResult task(Integer page, Integer limit) {
         PageHelper.startPage(page,limit);
         PageInfo<Task> pageInfo = taskService.getTaskByPage();
-        Result<Task> result = Result.createSuccess();
-        result.setCount(pageInfo.getTotal());
-        result.setData(pageInfo.getList());
+        JsonResult result = JsonResult.createSuccess();
+        result.putData("count", pageInfo.getTotal());
+        result.putData("list", pageInfo.getList());
         return result;
     }
 
     @ResponseBody
     @RequestMapping("/fuel")
-    public Result fuel(String plateNum, Integer page, Integer limit) {
+    public JsonResult fuel(String plateNum, Integer page, Integer limit) {
         PageHelper.startPage(page,limit);
         PageInfo<Task> pageInfo = taskService.fuel(plateNum);
-        Result<Task> result = Result.createSuccess();
-        result.setCount(pageInfo.getTotal());
-        result.setData(pageInfo.getList());
+        JsonResult result = JsonResult.createSuccess();
+        result.putData("count", pageInfo.getTotal());
+        result.putData("list", pageInfo.getList());
         return result;
     }
 }

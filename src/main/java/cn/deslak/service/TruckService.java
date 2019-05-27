@@ -13,6 +13,6 @@ public interface TruckService extends BaseService{
      * 获取所有车辆信息
      * @return
      */
-    List<Truck> getAll();
+    List<Truck> fetchAllTrucks();
 
 }
