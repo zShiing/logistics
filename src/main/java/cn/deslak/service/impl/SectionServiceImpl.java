@@ -1,13 +1,11 @@
 package cn.deslak.service.impl;
 
 import cn.deslak.dao.SectionDao;
-import cn.deslak.entity.Section;
 import cn.deslak.service.SectionService;
 import cn.deslak.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * @author zhang_xin on 2019/05/27.

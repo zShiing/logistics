@@ -81,10 +81,6 @@
         <result column="huowu_name" property="huowuName"/>
     </resultMap>
 
-    <resultMap id="batchResultMap" type="java.lang.String">
-        <result column="riqi" property="riqi"/>
-    </resultMap>
-
     <select id="fetchDailyReviewHistory" resultMap="DailyReviewHistoryResultMap">
         select daily_history_.id as id, daily_history_.batch as batch, daily_history_.section as section, daily_history_.code as code, daily_history_.planeStock as planeStock
         from daily_history daily_history_
@@ -99,12 +95,11 @@
     </select>
 
     <select id="fetchTaskReviewHistory" resultMap="TaskReviewHistoryResultMap">
-        select task_history_.id as id, task_history_.code as code, cement_.name as cementName, section_.name as sectionName, daily_.code as dailyCode,
-        task_history_.batch as batch, task_history_.tasks as tasks, task_history_.real_up as realUp, task_history_.real_down as realDown
+        select task_history_.id as id, task_history_.code as code, cement_.name as cementName, section_.name as sectionName,
+        task_history_.batch as batch, task_history_.tasks as tasks, task_history_.real_up as real_up, task_history_.real_down as real_down
         from task_history task_history_
         inner join cement cement_ on task_history_.cement_id = cement_.id
         inner join section section_ on task_history_.section_id = section_.id
-        inner join daily daily_ on task_history_.daily_id = daily_id
         where 1 = 1
         <if test="batchDate != null and batchDate != '未知选择'">
             and task_history_.batch like #{batchDate}"%"
