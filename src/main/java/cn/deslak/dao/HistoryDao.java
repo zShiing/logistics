@@ -15,7 +15,13 @@ import java.util.List;
 @Repository
 public interface HistoryDao {
 
-    List<DailyReviewHistory> fetchDailyReviewHistory();
+    /**
+     * 获取计划审核历史
+     * @param batchDate
+     * @param section
+     * @return
+     */
+    List<DailyReviewHistory> fetchDailyReviewHistory(@Param("batchDate") String batchDate, @Param("section") String section);
 
     /**
      * 获取任务审核历史
@@ -30,7 +36,13 @@ public interface HistoryDao {
      * 获取任务审核历史的日期
      * @return
      */
-    List<String> fetchBatchList();
+    List<String> fetchBatchDateOfTask();
+
+    /**
+     * 获取计划审核历史的日期
+     * @return
+     */
+    List<String> fetchBatchDateOfDaily();
 
 //    /**
 //     * 获取批次总数

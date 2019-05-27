@@ -36,10 +36,10 @@
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">选择框</label>
+                        <label class="layui-form-label">批次日期</label>
                         <div class="layui-input-inline">
                             <select id="batchDate" lay-verify="required" lay-search="">
-                                <option value="未知选择">批次日期</option>
+                                <option value="未知选择">请选择</option>
                             </select>
                         </div>
                     </div>
@@ -121,8 +121,8 @@
                     $.each(arr, function (index, item) {
                         $('#batchDate').append(new Option(item, item));
                     });
-                    layui.form.render("select");
                 }
+                layui.form.render("select");
             }
         });
     });
@@ -161,13 +161,7 @@
                     ]
                 ]
                 ,done: function (res, curr, count) {
-                    var arr = res.batch;
-                    if(arr != null && arr != undefined) {
-                        $.each(arr, function (index, item) {
-                            $('#batchDate').append(new Option(item, item));
-                        });
-                        layui.form.render("select");
-                    }
+
                 }
             });
         });

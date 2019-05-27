@@ -39,10 +39,18 @@
                         <legend>日计划审核历史</legend>
                     </fieldset>
                     <div class="layui-inline">
-                        <label class="layui-form-label">车牌号码</label>
+                        <label class="layui-form-label">标站</label>
                         <div class="layui-input-inline">
-                            <select id="plate_num" lay-verify="required" lay-search="">
-                                <option value="-1">请选择车辆</option>
+                            <select id="section" lay-verify="required" lay-search="">
+                                <option value="未知选择">请选择标站</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">批次日期</label>
+                        <div class="layui-input-inline">
+                            <select id="batchDate" lay-verify="required" lay-search="">
+                                <option value="未知选择">请选择</option>
                             </select>
                         </div>
                     </div>
@@ -69,12 +77,12 @@
         var table = layui.table;
         //检查项目添加到下拉框中
         $.ajax({
-            url: '/truck/trucks',
+            url: '/section/sections',
             dataType: 'json',
             type: 'get',
-            success: function (data) {
-                $.each(data.data.list, function (index, item) {
-                    $('#plate_num').append(new Option(item.license, item.license));// 下拉菜单里添加元素
+            success: function (res) {
+                $.each(res.data.list, function (index, item) {
+                    $('#section').append(new Option(item.name, item.name));// 下拉菜单里添加元素
                 });
                 layui.form.render("select");
             }
@@ -88,62 +96,61 @@
             ,parseData: function (res) {
                 var data = res.data;
                 return {
-                    'code': res.code, //解析接口状态
+                    'code': res.code,
                     'count': data.count,
                     'data': data.list,
+                    'batch': data.batch,
                 }
             }
             ,cols: [
                 [
                     {type:'numbers', width:80, title: ' '}
-                    ,{field:'code',title: '编码'}
-                    // ,{field:'huowuName', width:80, title: '货物名称', sort: true}
-                    // ,{field:'tasks', width:80, title: '运输任务'}
-                    ,{field:'license', title: '车辆', width: 100}
-                    // ,{field:'remark', title: '备注', sort: true}
-                    ,{field:'upTime', title: '上货时间', sort: true}
-                    ,{field:'downTime', title: '卸货时间'}
-                    ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
-                    ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
-                    ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
+                    ,{field:'batch', title: '批次', sort: true}
+                    ,{field:'code', title: '编码'}
+                    ,{field:'section', title: '标站'}
+                    ,{field:'planeStock', title: '计划(吨)'}
+                    ,{field:'code',title: '调整计划(吨)'}
                 ]
             ]
             ,done: function (res, curr, count) {
-                $("[data-field='id']").css('display','none');
+                var arr = res.batch;
+                if(arr != null && arr != undefined) {
+                    $.each(arr, function (index, item) {
+                        $('#batchDate').append(new Option(item, item));
+                    });
+                }
+                layui.form.render("select");
             }
         });
     });
     $(document).on('click', '#counts', function () {
-        var plate_num = $('#plate_num').val();
+        var section = $('#section').val();
+        var batchDate = $('#batchDate').val();
         layui.use('table', function () {
             var table = layui.table;
             table.render({
                 elem: '#all',
-                url: '/task/fuel?plateNum=' + plate_num,
+                url: '/history/daily_review_history_fetch?batchDate=' + batchDate + '&section=' + section,
                 totalRow:true,
                 toolbar:true,
                 event:true,
                 parseData: function (res) {
                     var data = res.data;
                     return {
-                        'code': res.code, //解析接口状态
+                        'code': res.code,
                         'count': data.count,
                         'data': data.list,
+                        'batch': data.batch,
                     }
                 },
                 cols: [
                     [
                         {type:'numbers', width:80, title: ' '}
-                        ,{field:'code',title: '编码'}
-                        // ,{field:'huowuName', width:80, title: '货物名称', sort: true}
-                        // ,{field:'tasks', width:80, title: '运输任务'}
-                        ,{field:'license', title: '车辆', width: 100}
-                        // ,{field:'remark', title: '备注', sort: true}
-                        ,{field:'upTime', title: '上货时间', sort: true}
-                        ,{field:'downTime', title: '卸货时间'}
-                        ,{field:'fuel', width:137, title: '耗油', sort: true}
-                        ,{field:'mileage', width:137, title: '驾驶时间', sort: true}
-                        ,{field:'drivingTime', width:137, title: '路程', sort: true}
+                        ,{field:'batch', title: '批次', sort: true}
+                        ,{field:'code', title: '编码'}
+                        ,{field:'section', title: '标站'}
+                        ,{field:'planeStock', title: '计划(吨)'}
+                        ,{field:'code',title: '调整计划(吨)'}
                     ]
                 ],page: true
                 ,done: function (res, curr, count) {

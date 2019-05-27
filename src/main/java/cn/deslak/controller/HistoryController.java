@@ -34,8 +34,8 @@ public class HistoryController extends BaseController{
 
     @ResponseBody
     @GetMapping("/daily_review_history_fetch")
-    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit) {
-        return historyService.fetchDailyReviewHistoryByPage(page, limit);
+    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit, String batchDate, String section) {
+        return historyService.fetchDailyReviewHistoryByPage(page, limit, batchDate, section);
     }
 
     @ResponseBody
