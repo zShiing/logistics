@@ -21,9 +21,7 @@ public class SectionController extends BaseController{
     @ResponseBody
     @GetMapping("/sections")
     public JsonResult fetchAllSection() {
-        JsonResult jsonResult = JsonResult.createSuccess();
-        jsonResult.putData("list", sectionService.fetchAllSection());
-        return jsonResult;
+        return sectionService.fetchAllSection();
     }
 
 }

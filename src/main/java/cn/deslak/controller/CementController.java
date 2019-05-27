@@ -21,9 +21,7 @@ public class CementController extends BaseController{
     @ResponseBody
     @GetMapping("/cements")
     public JsonResult fetchAllCement() {
-        JsonResult jsonResult = JsonResult.createSuccess();
-        jsonResult.putData("list", cementService.fetchAllCement());
-        return jsonResult;
+        return cementService.fetchAllCement();
     }
 
 }

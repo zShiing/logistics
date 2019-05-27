@@ -20,9 +20,7 @@ public class TruckController extends BaseController{
     @ResponseBody
     @RequestMapping("/trucks")
     public JsonResult fetchAllTrucks() {
-        JsonResult jsonResult = JsonResult.createSuccess();
-        jsonResult.putData("list", truckService.fetchAllTrucks());
-        return jsonResult;
+        return truckService.fetchAllTrucks();
     }
 
 }

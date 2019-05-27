@@ -1,12 +1,11 @@
 package cn.deslak.service.impl;
 
 import cn.deslak.dao.CementDao;
-import cn.deslak.entity.Cement;
 import cn.deslak.service.CementService;
+import cn.deslak.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * @author zhang_xin on 2019/05/27.
@@ -18,8 +17,10 @@ public class CementServiceImpl implements CementService {
     private CementDao cementDao;
 
     @Override
-    public List<Cement> fetchAllCement() {
-        return cementDao.fetchAllCement();
+    public JsonResult fetchAllCement() {
+        JsonResult jsonResult = JsonResult.createSuccess();
+        jsonResult.putData("list", cementDao.fetchAllCement());
+        return jsonResult;
     }
 
 }

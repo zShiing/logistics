@@ -81,6 +81,10 @@
         <result column="huowu_name" property="huowuName"/>
     </resultMap>
 
+    <resultMap id="batchResultMap" type="java.lang.String">
+        <result column="riqi" property="riqi"/>
+    </resultMap>
+
     <select id="fetchDailyReviewHistory" resultMap="DailyReviewHistoryResultMap">
         select daily_state_history_.cement as cement, daily_state_history_.section as section, daily_state_history_.plan as plan, daily_state_history_.plan as plan,
         daily_state_history_.edit_plan as edit_plan
@@ -94,15 +98,23 @@
         inner join cement cement_ on task_history_.cement_id = cement_.id
         inner join section section_ on task_history_.section_id = section_.id
         inner join daily daily_ on task_history_.daily_id = daily_id
-        <if test="batch != null">
-            where task_history_.batch like '#{batch}'
+        where 1 = 1
+        <if test="batchDate != null and batchDate != '未知选择'">
+            and task_history_.batch like #{batchDate}"%"
         </if>
-        <if test="cementId != null">
-            and task_history_.cement_id like '#{cementId}'
+        <if test="cementId != null and cementId != -1">
+            and task_history_.cement_id = #{cementId}
         </if>
-        <if test="sectionId != null">
-            and task_history_.section_id like '#{sectionId}'
+        <if test="sectionId != null and sectionId != -1">
+            and task_history_.section_id = #{sectionId}
         </if>
         group by code
     </select>
+
+    <select id="fetchBatchList" resultType="java.lang.String">
+        select riqi
+        from task_history
+        group by riqi
+    </select>
+
 </mapper>

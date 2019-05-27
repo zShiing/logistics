@@ -19,11 +19,22 @@ public interface HistoryDao {
 
     /**
      * 获取任务审核历史
-     * @param batch
+     * @param batchDate
      * @param cementId
      * @param sectionId
      * @return
      */
-    List<TaskReviewHistory> fetchTaskReviewHistory(@Param("batch") String batch, @Param("cementId") String cementId, @Param("sectionId") String sectionId);
+    List<TaskReviewHistory> fetchTaskReviewHistory(@Param("batchDate") String batchDate, @Param("cementId") String cementId, @Param("sectionId") String sectionId);
+
+    /**
+     * 获取任务审核历史的日期
+     * @return
+     */
+    List<String> fetchBatchList();
+
+//    /**
+//     * 获取批次总数
+//     */
+//    List<String> fetchPiciList();
 
 }

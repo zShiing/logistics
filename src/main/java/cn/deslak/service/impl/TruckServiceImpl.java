@@ -1,12 +1,11 @@
 package cn.deslak.service.impl;
 
 import cn.deslak.dao.TruckDao;
-import cn.deslak.entity.Truck;
 import cn.deslak.service.TruckService;
+import cn.deslak.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * @author zhang_xin on 2019/05/23.
@@ -18,8 +17,10 @@ public class TruckServiceImpl implements TruckService {
     private TruckDao truckDao;
 
     @Override
-    public List<Truck> fetchAllTrucks() {
-        return truckDao.fetchAllTrucks();
+    public JsonResult fetchAllTrucks() {
+        JsonResult jsonResult = JsonResult.createSuccess();
+        jsonResult.putData("list", truckDao.fetchAllTrucks());
+        return jsonResult;
     }
 
 }

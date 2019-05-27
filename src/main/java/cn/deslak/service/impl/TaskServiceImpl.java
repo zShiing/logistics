@@ -4,7 +4,9 @@ import cn.deslak.config.InvokeEnter;
 import cn.deslak.dao.TaskDao;
 import cn.deslak.entity.Task;
 import cn.deslak.service.TaskService;
+import cn.deslak.vo.JsonResult;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,18 +31,25 @@ public class TaskServiceImpl implements TaskService {
     private TaskDao taskDao;
 
     @Override
-    public PageInfo<Task> getTaskByPage() {
-        List<Task> list = taskDao.getTasks();
-        PageInfo<Task> pageInfo = new PageInfo(list);
+    public JsonResult fetchTaskByPage(Integer page, Integer limit) {
+        PageHelper.startPage(page,limit);
+        PageInfo<Task> pageInfo = new PageInfo(taskDao.getTasks());
         pageInfo = addValueForProps(pageInfo);
-        return pageInfo;
+        JsonResult result = JsonResult.createSuccess();
+        result.putData("count", pageInfo.getTotal());
+        result.putData("list", pageInfo.getList());
+        return result;
     }
 
     @Override
-    public PageInfo<Task> fuel(String plateNum) {
+    public JsonResult fuel(Integer page, Integer limit, String plateNum) {
+        PageHelper.startPage(page,limit);
         PageInfo<Task> pageInfo = new PageInfo(taskDao.fuel(plateNum));
         pageInfo = addValueForProps(pageInfo);
-        return pageInfo;
+        JsonResult result = JsonResult.createSuccess();
+        result.putData("count", pageInfo.getTotal());
+        result.putData("list", pageInfo.getList());
+        return result;
     }
 
     /**

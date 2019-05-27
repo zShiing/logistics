@@ -11,25 +11,6 @@
     <script src="../../static/js/jquery.min.js"></script>
 </head>
 <body style="width: 96%;margin:0 auto;margin-top: 20px">
-<script>
-    layui.use('laydate', function(){
-        var laydate = layui.laydate;
-
-        //日期时间范围
-        laydate.render({
-            elem: '#date'
-            ,type: 'datetime'
-            ,range: true
-        });
-
-        laydate.render({
-            elem: '#date'
-            ,type: 'datetime'
-            ,range: '到'
-            ,format: 'yyyy年M月d日H时m分s秒'
-        });
-    });
-</script>
 <div>
     <div class="layui-container-fluid">
         <div class="layui-row layui-col-space12">
@@ -41,7 +22,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">水泥厂</label>
                         <div class="layui-input-inline">
-                            <select id="cement_id" lay-verify="required" lay-search="">
+                            <select id="cementId" lay-verify="required" lay-search="">
                                 <option value="-1">请选择水泥厂</option>
                             </select>
                         </div>
@@ -49,17 +30,19 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">标站</label>
                         <div class="layui-input-inline">
-                            <select id="section_id" lay-verify="required" lay-search="">
+                            <select id="sectionId" lay-verify="required" lay-search="">
                                 <option value="-1">请选择标站</option>
                             </select>
                         </div>
                     </div>
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">日期时间范围</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <input type="text" class="layui-input" id="date" placeholder=" - ">-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="layui-inline">
+                        <label class="layui-form-label">选择框</label>
+                        <div class="layui-input-inline">
+                            <select id="batchDate" lay-verify="required" lay-search="">
+                                <option value="未知选择">批次日期</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </form>
             <div class="layui-inline">
@@ -86,9 +69,9 @@
             url: '/cement/cements',
             dataType: 'json',
             type: 'get',
-            success: function (data) {
-                $.each(data.data.list, function (index, item) {
-                    $('#cement_id').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+            success: function (res) {
+                $.each(res.data.list, function (index, item) {
+                    $('#cementId').append(new Option(item.name, item.id));// 下拉菜单里添加元素
                 });
                 layui.form.render("select");
             }
@@ -97,9 +80,9 @@
             url: '/section/sections',
             dataType: 'json',
             type: 'get',
-            success: function (data) {
-                $.each(data.data.list, function (index, item) {
-                    $('#section_id').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+            success: function (res) {
+                $.each(res.data.list, function (index, item) {
+                    $('#sectionId').append(new Option(item.name, item.id));// 下拉菜单里添加元素
                 });
                 layui.form.render("select");
             }
@@ -116,6 +99,7 @@
                     'code': res.code,
                     'count': data.count,
                     'data': data.list,
+                    'batch': data.batch,
                 }
             }
             ,cols: [
@@ -132,45 +116,58 @@
                 ]
             ]
             ,done: function (res, curr, count) {
-                $("[data-field='id']").css('display','none');
+                var arr = res.batch;
+                if(arr != null && arr != undefined) {
+                    $.each(arr, function (index, item) {
+                        $('#batchDate').append(new Option(item, item));
+                    });
+                    layui.form.render("select");
+                }
             }
         });
     });
     $(document).on('click', '#counts', function () {
-        var cement_id = $('#cement_id').val();
+        var cementId = $('#cementId').val();
+        var sectionId = $('#sectionId').val();
+        var batchDate = $('#batchDate').val();
         layui.use('table', function () {
             var table = layui.table;
             table.render({
                 elem: '#all',
-                url: '/task/fuel?plateNum=' + cement_id,
-                totalRow:true,
-                toolbar:true,
+                url: '/history/task_review_history_fetch?batchDate=' + batchDate +'&cementId=' + cementId + '&sectionId=' + sectionId,
+                cellMinWidth: 80,
                 event:true,
+                page: true,
                 parseData: function (res) {
                     var data = res.data;
                     return {
                         'code': res.code,
                         'count': data.count,
                         'data': data.list,
+                        'batch': data.batch,
                     }
                 },
                 cols: [
                     [
                         {type:'numbers', width:80, title: ' '}
+                        ,{field:'batch', title: '批次', sort: true, sort: true}
                         ,{field:'code',title: '编码'}
-                        // ,{field:'huowuName', width:80, title: '货物名称', sort: true}
-                        // ,{field:'tasks', width:80, title: '运输任务'}
-                        ,{field:'license', title: '车辆', width: 100}
-                        // ,{field:'remark', title: '备注', sort: true}
-                        ,{field:'upTime', title: '上货时间', sort: true}
-                        ,{field:'downTime', title: '卸货时间'}
-                        ,{field:'fuel', width:137, title: '耗油', sort: true}
-                        ,{field:'mileage', width:137, title: '驾驶时间', sort: true}
-                        ,{field:'drivingTime', width:137, title: '路程', sort: true}
+                        ,{field:'cementName', title: '水泥厂', sort: true}
+                        ,{field:'sectionName', title: '标站'}
+                        ,{field:'dailyCode', title: '所属计划'}
+                        ,{field:'tasks', title: '运输计划'}
+                        ,{field:'realUp', title: '实装'}
+                        ,{field:'realDown', title: '实卸'}
                     ]
-                ],page: true
+                ]
                 ,done: function (res, curr, count) {
-                    $("[data-field='id']").css('display','none');
+                    var arr = res.batch;
+                    if(arr != null && arr != undefined) {
+                        $.each(arr, function (index, item) {
+                            $('#batchDate').append(new Option(item, item));
+                        });
+                        layui.form.render("select");
+                    }
                 }
             });
         });

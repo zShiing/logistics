@@ -3,6 +3,7 @@ package cn.deslak.service.impl;
 import cn.deslak.dao.SectionDao;
 import cn.deslak.entity.Section;
 import cn.deslak.service.SectionService;
+import cn.deslak.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,10 @@ public class SectionServiceImpl implements SectionService {
     private SectionDao sectionDao;
 
     @Override
-    public List<Section> fetchAllSection() {
-        return sectionDao.fetchAllSection();
+    public JsonResult fetchAllSection() {
+        JsonResult jsonResult = JsonResult.createSuccess();
+        jsonResult.putData("list", sectionDao.fetchAllSection());
+        return jsonResult;
     }
 
 }

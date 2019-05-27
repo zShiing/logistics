@@ -1,10 +1,7 @@
 package cn.deslak.controller;
 
-import cn.deslak.entity.Task;
 import cn.deslak.service.TaskService;
 import cn.deslak.vo.JsonResult;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,22 +21,12 @@ public class TaskController {
     @ResponseBody
     @GetMapping("/find")
     public JsonResult task(Integer page, Integer limit) {
-        PageHelper.startPage(page,limit);
-        PageInfo<Task> pageInfo = taskService.getTaskByPage();
-        JsonResult result = JsonResult.createSuccess();
-        result.putData("count", pageInfo.getTotal());
-        result.putData("list", pageInfo.getList());
-        return result;
+        return taskService.fetchTaskByPage(page, limit);
     }
 
     @ResponseBody
     @RequestMapping("/fuel")
-    public JsonResult fuel(String plateNum, Integer page, Integer limit) {
-        PageHelper.startPage(page,limit);
-        PageInfo<Task> pageInfo = taskService.fuel(plateNum);
-        JsonResult result = JsonResult.createSuccess();
-        result.putData("count", pageInfo.getTotal());
-        result.putData("list", pageInfo.getList());
-        return result;
+    public JsonResult fuel(Integer page, Integer limit, String plateNum) {
+        return taskService.fuel(page, limit, plateNum);
     }
 }

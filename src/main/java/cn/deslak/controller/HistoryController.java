@@ -35,22 +35,12 @@ public class HistoryController extends BaseController{
     @ResponseBody
     @GetMapping("/daily_review_history_fetch")
     public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit) {
-        PageHelper.startPage(page,limit);
-        PageInfo<DailyReviewHistory> pageInfo = historyService.fetchDailyReviewHistoryByPage();
-        JsonResult result = JsonResult.createSuccess();
-        result.putData("count", pageInfo.getTotal());
-        result.putData("list", pageInfo.getList());
-        return result;
+        return historyService.fetchDailyReviewHistoryByPage(page, limit);
     }
 
     @ResponseBody
     @GetMapping("/task_review_history_fetch")
-    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit, String batch, String cementId, String sectionId) {
-        PageHelper.startPage(page,limit);
-        PageInfo<TaskReviewHistory> pageInfo = historyService.fetchTaskReviewHistory(batch, cementId, sectionId);
-        JsonResult result = JsonResult.createSuccess();
-        result.putData("list", pageInfo.getList());
-        result.putData("count", pageInfo.getTotal());
-        return result;
+    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit, String batchDate, String cementId, String sectionId) {
+        return historyService.fetchTaskReviewHistory(page, limit, batchDate, cementId, sectionId);
     }
 }
