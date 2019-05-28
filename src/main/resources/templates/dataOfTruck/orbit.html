@@ -79,18 +79,27 @@
     </div>
     <br/>
     <div id="container"></div>
-    <script type="text/javascript">
-        var map = new BMap.Map("container");
-        var point = new BMap.Point(106.713367, 26.605817);
-        map.centerAndZoom(point, 13);
-        //下面4个是添加的缩放控件
-        map.addControl(new BMap.NavigationControl());
-        map.addControl(new BMap.ScaleControl());
-        map.addControl(new BMap.OverviewMapControl());
-        map.addControl(new BMap.MapTypeControl());
-    </script>
 </body>
-<script>
+<script type="text/javascript">
+    var map = new BMap.Map("container");
+    var point = new BMap.Point(106.713367, 26.605817);
+    map.centerAndZoom(point, 7);
+    map.enableScrollWheelZoom(true);
+    //下面4个是添加的缩放控件
+    map.addControl(new BMap.NavigationControl());
+    map.addControl(new BMap.ScaleControl());
+    map.addControl(new BMap.OverviewMapControl());
+    map.addControl(new BMap.MapTypeControl());
+
+    var adds = [];
+    //清理标记
+    function removeMarker() {
+        var allOverlay = map.getOverlays();
+        for(var i = 0;i<allOverlay.length;i++) {
+            map.removeOverlay(allOverlay[i]);
+        }
+    }
+
     layui.use(['table'], function () {
         //检查项目添加到下拉框中
         $.ajax({
@@ -109,12 +118,30 @@
         var plate_num = $('#plate_num').val();
         var dateRange = $('#dateRange').val();
         var interval = $('#interval').val();
+        removeMarker();
         $.ajax({
             url: '/orbit/search?plateNum=' + plate_num + '&dateRange=' + dateRange + '&interval=' + interval,
             dataType: 'json',
             type: 'get',
             success: function (data) {
-                console.log(data);
+                if(data.code == -1 || data.sub_code == -1) {
+                    alert("获取轨迹失败");
+                    return;
+                }
+                if(data.data == null) {
+                    alert("没有找到相关信息");
+                    return;
+                }
+                var arr = data.data;
+                adds = new Array(arr.length);
+                for(var i = 0; i < arr.length; i++) {
+                    adds[i] = new BMap.Point(arr[i].lng, arr[i].lat);
+                }
+                for(var i = 0; i<adds.length; i++){
+                    var marker = new BMap.Marker(adds[i]);
+                    map.addOverlay(marker);
+                    marker.setLabel(new BMap.Label(i,{offset:new BMap.Size(0,0)}));
+                }
             }
         });
     });

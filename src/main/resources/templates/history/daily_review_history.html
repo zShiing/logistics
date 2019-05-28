@@ -93,6 +93,7 @@
             ,cellMinWidth: 80
             ,page: true
             ,event:true
+            ,totalRow: true
             ,parseData: function (res) {
                 var data = res.data;
                 return {
@@ -104,12 +105,12 @@
             }
             ,cols: [
                 [
-                    {type:'numbers', width:80, title: ' '}
+                    {type:'numbers', width:80, title: ' ', totalRowText: '合计'}
                     ,{field:'batch', title: '批次', sort: true}
                     ,{field:'code', title: '编码'}
                     ,{field:'section', title: '标站'}
-                    ,{field:'planeStock', title: '计划(吨)'}
-                    ,{field:'remark',title: '调整计划(吨)'}
+                    ,{field:'planeStock', title: '计划(吨)', sort: true, totalRow: true}
+                    ,{field:'remark',title: '调整计划(吨)', sort: true, totalRow: true}
                 ]
             ]
             ,done: function (res, curr, count) {
@@ -134,6 +135,7 @@
                 totalRow:true,
                 toolbar:true,
                 event:true,
+                totalRow: true,
                 parseData: function (res) {
                     var data = res.data;
                     return {
@@ -145,12 +147,12 @@
                 },
                 cols: [
                     [
-                        {type:'numbers', width:80, title: ' '}
+                        {type:'numbers', width:80, title: ' ', totalRowText: '合计'}
                         ,{field:'batch', title: '批次', sort: true}
                         ,{field:'code', title: '编码'}
                         ,{field:'section', title: '标站'}
-                        ,{field:'planeStock', title: '计划(吨)'}
-                        ,{field:'remark',title: '调整计划(吨)'}
+                        ,{field:'planeStock', title: '计划(吨)', sort: true, totalRow: true}
+                        ,{field:'remark',title: '调整计划(吨)', sort: true, totalRow: true}
                     ]
                 ],page: true
                 ,done: function (res, curr, count) {
