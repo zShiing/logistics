@@ -49,7 +49,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">批次日期</label>
                         <div class="layui-input-inline">
-                            <select id="batchDate" lay-verify="required" lay-search="">
+                            <select id="batch" lay-verify="required" lay-search="">
                                 <option value="未知选择">请选择</option>
                             </select>
                         </div>
@@ -116,7 +116,7 @@
                 var arr = res.batch;
                 if(arr != null && arr != undefined) {
                     $.each(arr, function (index, item) {
-                        $('#batchDate').append(new Option(item, item));
+                        $('#batch').append(new Option(item, item));
                     });
                 }
                 layui.form.render("select");
@@ -125,12 +125,12 @@
     });
     $(document).on('click', '#counts', function () {
         var section = $('#section').val();
-        var batchDate = $('#batchDate').val();
+        var batch = $('#batch').val();
         layui.use('table', function () {
             var table = layui.table;
             table.render({
                 elem: '#all',
-                url: '/history/daily_review_history_fetch?batchDate=' + batchDate + '&section=' + section,
+                url: '/history/daily_review_history_fetch?batch=' + batch + '&section=' + section,
                 totalRow:true,
                 toolbar:true,
                 event:true,

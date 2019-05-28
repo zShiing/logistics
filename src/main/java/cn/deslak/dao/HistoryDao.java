@@ -17,20 +17,22 @@ public interface HistoryDao {
 
     /**
      * 获取计划审核历史
-     * @param batchDate
+     * @param batch
      * @param section
      * @return
      */
-    List<DailyReviewHistory> fetchDailyReviewHistory(@Param("batchDate") String batchDate, @Param("section") String section);
+    List<DailyReviewHistory> fetchDailyReviewHistory(@Param("batch") String batch, @Param("section") String section);
 
     /**
      * 获取任务审核历史
-     * @param batchDate
+     * @param batch
      * @param cementId
      * @param sectionId
      * @return
      */
-    List<TaskReviewHistory> fetchTaskReviewHistory(@Param("batchDate") String batchDate, @Param("cementId") String cementId, @Param("sectionId") String sectionId);
+    List<TaskReviewHistory> fetchTaskReviewHistory(@Param("batch") String batch, @Param("cementId") String cementId, @Param("sectionId") String sectionId, @Param("state") String state,
+                                                   @Param("isChangeCar") String isChangeCar, @Param("license") String license, @Param("loadOverTime") String loadOverTime,
+                                                   @Param("transportOverTime") String transportOverTime);
 
     /**
      * 获取任务审核历史的日期
@@ -43,10 +45,5 @@ public interface HistoryDao {
      * @return
      */
     List<String> fetchBatchDateOfDaily();
-
-//    /**
-//     * 获取批次总数
-//     */
-//    List<String> fetchPiciList();
 
 }

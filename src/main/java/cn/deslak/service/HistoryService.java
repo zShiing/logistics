@@ -7,8 +7,9 @@ import cn.deslak.vo.JsonResult;
  */
 public interface HistoryService extends BaseService{
 
-    JsonResult fetchDailyReviewHistoryByPage(Integer page, Integer limit, String batchDate, String section);
+    JsonResult fetchDailyReviewHistoryByPage(Integer page, Integer limit, String batch, String section);
 
-    JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batchDate, String cementId, String sectionId);
+    JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
+                                      String loadOverTime, String transportOverTime);
 
 }

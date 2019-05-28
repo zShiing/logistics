@@ -15,15 +15,15 @@
     <div class="layui-container-fluid">
         <div class="layui-row layui-col-space12">
             <form class="layui-form layui-form-pane" action="" method="get">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>任务审核历史</legend>
+                </fieldset>
                 <div class="layui-form-item">
-                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                        <legend>任务审核历史</legend>
-                    </fieldset>
                     <div class="layui-inline">
                         <label class="layui-form-label">水泥厂</label>
                         <div class="layui-input-inline">
                             <select id="cementId" lay-verify="required" lay-search="">
-                                <option value="-1">请选择水泥厂</option>
+                                <option value="-1">未选择</option>
                             </select>
                         </div>
                     </div>
@@ -31,15 +31,61 @@
                         <label class="layui-form-label">标站</label>
                         <div class="layui-input-inline">
                             <select id="sectionId" lay-verify="required" lay-search="">
-                                <option value="-1">请选择标站</option>
+                                <option value="-1">未选择</option>
                             </select>
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">批次日期</label>
+                        <label class="layui-form-label">批次选择</label>
                         <div class="layui-input-inline">
-                            <select id="batchDate" lay-verify="required" lay-search="">
-                                <option value="未知选择">请选择</option>
+                            <select id="batch" lay-verify="required" lay-search="">
+                                <option value="未知选择">未选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">任务状态</label>
+                        <div class="layui-input-inline">
+                            <select id="state" lay-verify="required" lay-search="">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">改派状态</label>
+                        <div class="layui-input-inline">
+                            <select id="isChangeCar" lay-verify="required" lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">改派</option>
+                                <option value="0">未改派</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">改派前车辆</label>
+                        <div class="layui-input-block">
+                            <input id="license" type="text" name="license" lay-verify="title" autocomplete="off" placeholder="车牌号" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">装货超时</label>
+                        <div class="layui-input-inline">
+                            <select id="loadOverTime" lay-verify="required" lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">超时</option>
+                                <option value="0">未超时</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">运输超时</label>
+                        <div class="layui-input-inline">
+                            <select id="transportOverTime" lay-verify="required" lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">超时</option>
+                                <option value="0">未超时</option>
                             </select>
                         </div>
                     </div>
@@ -62,8 +108,9 @@
 </div>
 </body>
 <script>
-    layui.use(['table'], function () {
+    layui.use(['table', 'util'], function () {
         var table = layui.table;
+        var util = layui.util;
         //检查项目添加到下拉框中
         $.ajax({
             url: '/cement/cements',
@@ -87,12 +134,24 @@
                 layui.form.render("select");
             }
         });
+        $.ajax({
+            url: '/dicts/fetch?table=task&field=state',
+            dataType: 'json',
+            type: 'get',
+            success: function (res) {
+                $.each(res.data.list, function (index, item) {
+                    $('#state').append(new Option(item.name, item.value));// 下拉菜单里添加元素
+                });
+                layui.form.render("select");
+            }
+        });
         table.render({
             elem: '#all'
             ,url:'/history/task_review_history_fetch'
             ,cellMinWidth: 80
             ,page: true
             ,event: true
+            ,totalRow: true
             ,parseData: function (res) {
                 var data = res.data;
                 return {
@@ -104,22 +163,65 @@
             }
             ,cols: [
                 [
-                    {type:'numbers', width:80, title: ' '}
-                    ,{field:'batch', title: '批次', sort: true, sort: true}
+                    {type:'numbers', width:80, title: ' ', totalRowText: '合计'}
+                    ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
+                        return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
+                    }}
+                    ,{field:'batch', title: '批次', sort: true}
                     ,{field:'code',title: '编码'}
                     ,{field:'cementName', title: '水泥厂', sort: true}
                     ,{field:'sectionName', title: '标站'}
-                    //,{field:'dailyCode', title: '所属计划'}
-                    ,{field:'tasks', title: '运输计划(吨)'}
-                    ,{field:'realUp', title: '实装(吨)'}
-                    ,{field:'realDown', title: '实卸(吨)'}
+                    ,{field:'state', title: '状态', templet: function (d) {
+                        if(d.state == -1) {
+                            return '手动新增';
+                        }
+                        if(d.state == 0) {
+                            return '关闭';
+                        }
+                        if(d.state == 1) {
+                            return '完成';
+                        }
+                        if(d.state == 2) {
+                            return '未下发';
+                        }
+                        if(d.state == 3) {
+                            return '已接单待装货';
+                        }
+                        if(d.state == 4) {
+                            return '装载超时';
+                        }
+                        if(d.state == 5) {
+                            return '已装货运输中';
+                        }
+                        if(d.state == 6) {
+                            return '运输超时';
+                        }
+                        if(d.state == 7) {
+                            return '已到达未卸货';
+                        }
+                        if(d.state == 8) {
+                            return '卸货超时';
+                        }
+                        if(d.state == 9) {
+                            return '已卸货待审核';
+                        }
+                        if(d.state == 10) {
+                            return '人工上报异常';
+                        }
+                    }}
+                    ,{field:'tasks', title: '运输计划(吨)', totalRow: true}
+                    ,{field:'realUp', title: '实装(吨)', totalRow: true}
+                    ,{field:'realDown', title: '实卸(吨)', totalRow: true}
+                    ,{field:'beforeCar', title: '改派前车辆'}
+                    ,{field:'upOverTime', title: '装货超时时间'}
+                    ,{field:'traverOverTime', title: '运输超时时间'}
                 ]
             ]
             ,done: function (res, curr, count) {
                 var arr = res.batch;
                 if(arr != null && arr != undefined) {
                     $.each(arr, function (index, item) {
-                        $('#batchDate').append(new Option(item, item));
+                        $('#batch').append(new Option(item, item));
                     });
                 }
                 layui.form.render("select");
@@ -129,15 +231,24 @@
     $(document).on('click', '#counts', function () {
         var cementId = $('#cementId').val();
         var sectionId = $('#sectionId').val();
-        var batchDate = $('#batchDate').val();
-        layui.use('table', function () {
+        var batch = $('#batch').val();
+        var state = $('#state').val();
+        var license = $('#license').val();
+        var isChangeCar = $('#isChangeCar').val();
+        var loadOverTime = $('#loadOverTime').val();
+        var transportOverTime = $('#transportOverTime').val();
+        layui.use(['table', 'util'], function () {
             var table = layui.table;
+            var util = layui.util;
             table.render({
                 elem: '#all',
-                url: '/history/task_review_history_fetch?batchDate=' + batchDate +'&cementId=' + cementId + '&sectionId=' + sectionId,
+                url: '/history/task_review_history_fetch?batch=' + batch +'&cementId=' + cementId + '&sectionId=' + sectionId
+                     + '&isChangeCar=' + isChangeCar + '&state=' + state + '&license=' + license + '&loadOverTime=' + loadOverTime
+                     + '&transportOverTime=' + transportOverTime,
                 cellMinWidth: 80,
                 event:true,
                 page: true,
+                totalRow: true,
                 parseData: function (res) {
                     var data = res.data;
                     return {
@@ -149,15 +260,58 @@
                 },
                 cols: [
                     [
-                        {type:'numbers', width:80, title: ' '}
+                        {type:'numbers', width:80, title: ' ', totalRowText: '合计'}
+                        ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
+                            return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
+                        }}
                         ,{field:'batch', title: '批次', sort: true, sort: true}
                         ,{field:'code',title: '编码'}
                         ,{field:'cementName', title: '水泥厂', sort: true}
                         ,{field:'sectionName', title: '标站'}
-                       //,{field:'dailyCode', title: '所属计划'}
-                        ,{field:'tasks', title: '运输计划(吨)'}
-                        ,{field:'realUp', title: '实装(吨)'}
-                        ,{field:'realDown', title: '实卸(吨)'}
+                        ,{field:'state', title: '状态', templet: function (d) {
+                            if(d.state == -1) {
+                                return '手动新增';
+                            }
+                            if(d.state == 0) {
+                                return '关闭';
+                            }
+                            if(d.state == 1) {
+                                return '完成';
+                            }
+                            if(d.state == 2) {
+                                return '未下发';
+                            }
+                            if(d.state == 3) {
+                                return '已接单待装货';
+                            }
+                            if(d.state == 4) {
+                                return '装载超时';
+                            }
+                            if(d.state == 5) {
+                                return '已装货运输中';
+                            }
+                            if(d.state == 6) {
+                                return '运输超时';
+                            }
+                            if(d.state == 7) {
+                                return '已到达未卸货';
+                            }
+                            if(d.state == 8) {
+                                return '卸货超时';
+                            }
+                            if(d.state == 9) {
+                                return '已卸货待审核';
+                            }
+                            if(d.state == 10) {
+                                return '人工上报异常';
+                            }
+                        }}
+                        ,{field:'tasks', title: '运输计划(吨)', totalRow: true}
+                        ,{field:'realUp', title: '实装(吨)', totalRow: true}
+                        ,{field:'realDown', title: '实卸(吨)', totalRow: true}
+                        ,{field:'beforeCar', title: '改派前车辆'}
+                        ,{field:'upOverTime', title: '装货超时时间'}
+                        ,{field:'traverOverTime', title: '运输超时时间'}
                     ]
                 ]
                 ,done: function (res, curr, count) {

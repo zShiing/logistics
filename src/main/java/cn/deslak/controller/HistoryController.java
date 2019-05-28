@@ -34,13 +34,14 @@ public class HistoryController extends BaseController{
 
     @ResponseBody
     @GetMapping("/daily_review_history_fetch")
-    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit, String batchDate, String section) {
-        return historyService.fetchDailyReviewHistoryByPage(page, limit, batchDate, section);
+    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit, String batch, String section) {
+        return historyService.fetchDailyReviewHistoryByPage(page, limit, batch, section);
     }
 
     @ResponseBody
     @GetMapping("/task_review_history_fetch")
-    public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit, String batchDate, String cementId, String sectionId) {
-        return historyService.fetchTaskReviewHistory(page, limit, batchDate, cementId, sectionId);
+    public JsonResult taskReviewHistoryFetch(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
+                                             String loadOverTime, String transportOverTime) {
+        return historyService.fetchTaskReviewHistory(page, limit, batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime);
     }
 }
