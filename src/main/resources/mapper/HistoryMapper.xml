@@ -85,11 +85,12 @@
     </resultMap>
 
     <select id="fetchDailyReviewHistory" resultMap="DailyReviewHistoryResultMap">
-        select daily_history_.id as id, daily_history_.batch as batch, daily_history_.section as section, daily_history_.code as code, daily_history_.planeStock as planeStock
+        select daily_history_.id as id, daily_history_.batch as batch, daily_history_.section as section, daily_history_.code as code,
+        daily_history_.planeStock as planeStock, daily_history_.remark as remark
         from daily_history daily_history_
         where 1 = 1
         <if test="batch != null and batch != '未知选择'">
-            and daily_history_.batch like #{batch}"%"
+            and daily_history_.batch like "%-"#{batch}
         </if>
         <if test="section != null and section  != '未知选择'">
             and daily_history_.section like #{section}"%"
@@ -138,15 +139,15 @@
         group by id
     </select>
 
-    <select id="fetchBatchDateOfTask" resultType="java.lang.String">
+    <select id="fetchBatchOfTask" resultType="java.lang.String">
         select batch
         from task_history
         group by batch
     </select>
 
-    <select id="fetchBatchDateOfDaily" resultType="java.lang.String">
-        select add_time
+    <select id="fetchBatchOfDaily" resultType="java.lang.String">
+        select batch
         from daily_history
-        group by add_time
+        group by batch
     </select>
 </mapper>

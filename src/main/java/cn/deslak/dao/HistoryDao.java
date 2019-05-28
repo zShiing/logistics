@@ -28,6 +28,11 @@ public interface HistoryDao {
      * @param batch
      * @param cementId
      * @param sectionId
+     * @param state
+     * @param isChangeCar
+     * @param license
+     * @param loadOverTime
+     * @param transportOverTime
      * @return
      */
     List<TaskReviewHistory> fetchTaskReviewHistory(@Param("batch") String batch, @Param("cementId") String cementId, @Param("sectionId") String sectionId, @Param("state") String state,
@@ -38,12 +43,12 @@ public interface HistoryDao {
      * 获取任务审核历史的日期
      * @return
      */
-    List<String> fetchBatchDateOfTask();
+    List<String> fetchBatchOfTask();
 
     /**
      * 获取计划审核历史的日期
      * @return
      */
-    List<String> fetchBatchDateOfDaily();
+    List<String> fetchBatchOfDaily();
 
 }

@@ -28,7 +28,7 @@ public class HistoryServiceImpl implements HistoryService {
         PageHelper.startPage(page,limit);
         List<DailyReviewHistory> list =  historyDao.fetchDailyReviewHistory(batch, section);
         PageInfo<DailyReviewHistory> pageInfo = new PageInfo(list);
-        List<String> batchList = batchCount(historyDao.fetchBatchDateOfTask());
+        List<String> batchList = batchCount(historyDao.fetchBatchOfDaily());
         JsonResult result = JsonResult.createSuccess();
         result.putData("count", pageInfo.getTotal());
         result.putData("list", pageInfo.getList());
@@ -42,7 +42,7 @@ public class HistoryServiceImpl implements HistoryService {
         PageHelper.startPage(page,limit);
         List<TaskReviewHistory> list = historyDao.fetchTaskReviewHistory(batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime);
         PageInfo<TaskReviewHistory> pageInfo = new PageInfo(list);
-        List<String> batchList = batchCount(historyDao.fetchBatchDateOfTask());
+        List<String> batchList = batchCount(historyDao.fetchBatchOfTask());
         JsonResult result = JsonResult.createSuccess();
         result.putData("list", pageInfo.getList());
         result.putData("count", pageInfo.getTotal());
