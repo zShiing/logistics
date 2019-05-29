@@ -38,6 +38,7 @@ public class TaskReviewHistory {
      *车辆ID
      */
     private int carId;
+    private String car;
     /**
      *路线ID
      */

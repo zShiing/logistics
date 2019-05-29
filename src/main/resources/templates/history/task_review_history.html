@@ -231,9 +231,25 @@
                 layui.form.render("select");
             }
         });
+
+        function pathWithParam(car, acceptTime, downTime) {
+            var path = '/orbit';
+            if(car == null || acceptTime == null || downTime == null) {
+                return;
+            }
+            path = path + '?car=' + car;
+            path = path + '&acceptTime=' + util.toDateString(acceptTime*1000, "yyyy-MM-dd HH:mm:ss");
+            path = path + '&downTime=' + util.toDateString(downTime*1000, "yyyy-MM-dd HH:mm:ss");
+            return path;
+        }
+
         table.on('tool(all)', function(obj){
             var data = obj.data;
-            //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            if(data.acceptTime == null) {
+                layer.alert('任务尚未完成!')
+                return;
+            }
+            var path = pathWithParam(data.car, data.acceptTime, data.downTime);
             layer.open({
                 type: 2
                 ,title: false //不显示标题栏
@@ -244,7 +260,7 @@
                 ,btn: '关闭'
                 ,btnAlign: 'c'
                 ,moveType: 1 //拖拽模式，0或者1
-                ,content: '/orbit'
+                ,content: path
                 ,success: function(layero){
 
                 }
