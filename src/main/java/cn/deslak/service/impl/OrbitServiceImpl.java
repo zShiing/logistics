@@ -1,14 +1,11 @@
 package cn.deslak.service.impl;
 
-import cn.deslak.config.InvokeEnter;
+import cn.deslak.service.DataService;
 import cn.deslak.service.OrbitService;
-import cn.deslak.util.StringUtil;
-import cn.deslak.vo.JsonResult;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -17,16 +14,14 @@ import java.util.Map;
 @Service("orbitService")
 public class OrbitServiceImpl implements OrbitService {
 
+    @Autowired
+    private DataService dataService;
+
     @Override
     public JSONObject truckOrbitHistory(String plateNum, String dateRange, String interval) {
-        String path = "/v1/device/truck/history_location";
         String[] range = splitOnLayuiDateRangeString(dateRange);
-        Map<String, String> querys = new HashMap();
-        querys.put("plate_num", StringUtil.replaceBlankOnString(plateNum));
-        querys.put("from", range[0]);
-        querys.put("to", range[1]);
-        querys.put("interval", interval);
-        return JSONObject.parseObject(InvokeEnter.getMethod(path, querys));
+        String resultString = dataService.orbitHistory(plateNum, range[0], range[1], interval);
+        return JSONObject.parseObject(resultString);
     }
 
     /**

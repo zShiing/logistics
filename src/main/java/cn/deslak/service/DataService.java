@@ -1,6 +1,5 @@
 package cn.deslak.service;
 
-import java.util.Map;
 
 /**
  * @author zhang_xin on 2019/05/23.
@@ -8,9 +7,22 @@ import java.util.Map;
 public interface DataService extends BaseService{
 
     /**
-     * 获取车辆油耗信息
+     * 查询油耗
+     * @param plateNum
+     * @param from
+     * @param to
      * @return
      */
-    Map<String, Object> getFuelInfo();
+    String fuel(String plateNum, String from, String to);
+
+    /**
+     * 查询历史轨迹
+     * @param plateNum
+     * @param from
+     * @param to
+     * @param interval
+     * @return
+     */
+    String orbitHistory(String plateNum, String from, String to, String interval);
 
 }

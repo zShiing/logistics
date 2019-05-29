@@ -1,8 +1,8 @@
 package cn.deslak.service.impl;
 
-import cn.deslak.config.InvokeEnter;
 import cn.deslak.dao.TaskDao;
 import cn.deslak.entity.Task;
+import cn.deslak.service.DataService;
 import cn.deslak.service.TaskService;
 import cn.deslak.vo.JsonResult;
 import com.alibaba.fastjson.JSONObject;
@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +28,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskDao taskDao;
+    @Autowired
+    private DataService dataService;
 
     @Override
     public JsonResult fetchTaskByPage(Integer page, Integer limit) {
@@ -63,12 +64,8 @@ public class TaskServiceImpl implements TaskService {
             if(!varValidation(task)) {
                 continue;
             }
-            String path = "/v1/device/truck/fuel";
-            Map<String, String> querys = new HashMap();
-            querys.put("plate_num", task.getLicense());
-            querys.put("from", dateTransfer(task.getUpTime()));
-            querys.put("to", dateTransfer(task.getDownTime()));
-            JSONObject jsonObject = JSONObject.parseObject(InvokeEnter.getMethod(path, querys));
+            String resultString = dataService.fuel(task.getLicense(), dateTransfer(task.getUpTime()), dateTransfer(task.getDownTime()));
+            JSONObject jsonObject = JSONObject.parseObject(resultString);
             Map<String, Object> map = (Map<String, Object>)jsonObject.get("data");
             if(!map.isEmpty()) {
                 task.setMileage(new BigDecimal(map.get("mileage").toString()));

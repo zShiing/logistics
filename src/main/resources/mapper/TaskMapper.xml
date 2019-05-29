@@ -38,7 +38,7 @@
         <result column="huowu_name" property="huowuName"/>
     </resultMap>
 
-    <select id="getTaskByPage" resultMap="TaskResultMap">
+    <select id="getTasks" resultMap="TaskResultMap">
         select task_.code as code, task_.huowu_name as huowu_name, task_.tasks as tasks, car_.license as license, task_.remark as remark,
         task_.up_time as up_time, task_.down_time as down_time
         from task task_
