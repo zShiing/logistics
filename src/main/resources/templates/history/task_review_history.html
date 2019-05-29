@@ -215,6 +215,10 @@
                     ,{field:'beforeCar', title: '改派前车辆'}
                     ,{field:'upOverTime', title: '装货超时时间'}
                     ,{field:'traverOverTime', title: '运输超时时间'}
+                    ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
+                    ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
+                    ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
+                    ,{fixed: 'right', title: '操作', width:178, align:'center', toolbar: '#mapBar'}
                 ]
             ]
             ,done: function (res, curr, count) {
@@ -226,6 +230,25 @@
                 }
                 layui.form.render("select");
             }
+        });
+        table.on('tool(all)', function(obj){
+            var data = obj.data;
+            //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            layer.open({
+                type: 2
+                ,title: false //不显示标题栏
+                ,closeBtn: false
+                ,shade: 0.8
+                ,area: ['1000px', '800px']
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: '关闭'
+                ,btnAlign: 'c'
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '/orbit'
+                ,success: function(layero){
+
+                }
+            });
         });
     });
     $(document).on('click', '#counts', function () {
@@ -312,6 +335,10 @@
                         ,{field:'beforeCar', title: '改派前车辆'}
                         ,{field:'upOverTime', title: '装货超时时间'}
                         ,{field:'traverOverTime', title: '运输超时时间'}
+                        ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
+                        ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
+                        ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
+                        ,{fixed: 'right', title: '操作', width:178, align:'center', toolbar: '#mapBar'}
                     ]
                 ]
                 ,done: function (res, curr, count) {
@@ -320,5 +347,8 @@
             });
         });
     });
+</script>
+<script type="text/html" id="mapBar">
+    <a class="layui-btn layui-btn-xs" lay-event="orbit">查看历史轨迹</a>
 </script>
 </html>
