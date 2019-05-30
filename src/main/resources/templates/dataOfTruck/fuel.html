@@ -75,7 +75,7 @@
         var table = layui.table;
         //检查项目添加到下拉框中
         $.ajax({
-            url: '/truck/trucks',
+            url: '/truck/fetch',
             dataType: 'json',
             type: 'get',
             success: function (data) {

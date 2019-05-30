@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.deslak.dao.MaterialDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.deslak.entity.Material">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="position" property="position"/>
+        <result column="contact" property="contact"/>
+        <result column="phone" property="phone"/>
+    </resultMap>
+
+    <select id="fetchAllMaterial" resultMap="BaseResultMap">
+        select materials.id, materials.name, materials.position, materials.contact, materials.phone
+        from materials
+    </select>
+</mapper>

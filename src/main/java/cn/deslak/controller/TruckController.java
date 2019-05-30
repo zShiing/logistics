@@ -18,7 +18,7 @@ public class TruckController extends BaseController{
     private TruckService truckService;
 
     @ResponseBody
-    @RequestMapping("/trucks")
+    @RequestMapping("/fetch")
     public JsonResult fetchAllTrucks() {
         return truckService.fetchAllTrucks();
     }

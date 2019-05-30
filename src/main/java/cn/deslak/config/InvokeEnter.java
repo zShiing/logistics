@@ -9,22 +9,34 @@ import cn.deslak.util.MessageDigestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class InvokeEnter {
 
     private static final Logger LOG = LoggerFactory.getLogger(InvokeEnter.class);
     //APP KEY
-    @Value("${g7.access-id}")
     private static String ACCESS_ID;
     // APP密钥
-    @Value("${g7.secret-key}")
     private static String SECRET_KEY;
     //API域名
-    @Value("${g7.base-url}")
     private static String BaseURL;
+
+    @Value("${g7.access-id}")
+    public void setAccessId(String accessId) {
+        ACCESS_ID = accessId;
+    }
+    @Value("${g7.secret-key}")
+    public void setSecretKey(String secretKey) {
+        SECRET_KEY = secretKey;
+    }
+    @Value("${g7.base-url}")
+    public void setBaseURL(String baseURL) {
+        BaseURL = baseURL;
+    }
 
     /**
      * GET方法

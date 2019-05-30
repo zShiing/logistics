@@ -19,7 +19,7 @@ public class SectionController extends BaseController{
     private SectionService sectionService;
 
     @ResponseBody
-    @GetMapping("/sections")
+    @GetMapping("/fetch")
     public JsonResult fetchAllSection() {
         return sectionService.fetchAllSection();
     }

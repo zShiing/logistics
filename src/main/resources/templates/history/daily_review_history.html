@@ -21,13 +21,6 @@
             ,type: 'datetime'
             ,range: true
         });
-
-        laydate.render({
-            elem: '#date'
-            ,type: 'datetime'
-            ,range: '到'
-            ,format: 'yyyy年M月d日H时m分s秒'
-        });
     });
 </script>
 <div>
@@ -77,7 +70,7 @@
         var table = layui.table;
         //检查项目添加到下拉框中
         $.ajax({
-            url: '/section/sections',
+            url: '/section/fetch',
             dataType: 'json',
             type: 'get',
             success: function (res) {

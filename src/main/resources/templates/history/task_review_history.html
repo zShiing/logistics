@@ -36,6 +36,12 @@
                         </div>
                     </div>
                     <div class="layui-inline">
+                        <label class="layui-form-label">批次日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="dateRange" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
                         <label class="layui-form-label">批次选择</label>
                         <div class="layui-input-inline">
                             <select id="batch" lay-verify="required" lay-search="">
@@ -49,24 +55,6 @@
                             <select id="state" lay-verify="required" lay-search="">
                                 <option value="-1">未选择</option>
                             </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">改派状态</label>
-                        <div class="layui-input-inline">
-                            <select id="isChangeCar" lay-verify="required" lay-search="">
-                                <option value="-1">未选择</option>
-                                <option value="1">改派</option>
-                                <option value="0">未改派</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">改派前车辆</label>
-                        <div class="layui-input-block">
-                            <input id="license" type="text" name="license" lay-verify="title" autocomplete="off" placeholder="车牌号" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -89,6 +77,50 @@
                             </select>
                         </div>
                     </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态异常</label>
+                        <div class="layui-input-inline">
+                            <select id="exception" lay-verify="required" lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">异常</option>
+                                <option value="0">无异常</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">改派状态</label>
+                        <div class="layui-input-inline">
+                            <select id="isChangeCar" lay-verify="required" lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">改派</option>
+                                <option value="0">未改派</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">改派前车辆</label>
+                        <div class="layui-input-block">
+                            <input id="license" type="text" name="license" lay-verify="title" autocomplete="off" placeholder="车牌号" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物资公司</label>
+                        <div class="layui-input-inline">
+                            <select id="materialId" lay-verify="required" lay-search="">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物流公司</label>
+                        <div class="layui-input-inline">
+                            <select id="logistic" lay-verify="required" lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">异常</option>
+                                <option value="0">无异常</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </form>
             <div class="layui-inline">
@@ -108,12 +140,18 @@
 </div>
 </body>
 <script>
-    layui.use(['table', 'util'], function () {
+    layui.use(['table', 'util', 'laydate'], function () {
+        var laydate = layui.laydate;
+        //日期时间范围
+        laydate.render({
+            elem: '#dateRange'
+            ,range: true
+        });
         var table = layui.table;
         var util = layui.util;
         //检查项目添加到下拉框中
         $.ajax({
-            url: '/cement/cements',
+            url: '/cement/fetch',
             dataType: 'json',
             type: 'get',
             success: function (res) {
@@ -124,7 +162,7 @@
             }
         });
         $.ajax({
-            url: '/section/sections',
+            url: '/section/fetch',
             dataType: 'json',
             type: 'get',
             success: function (res) {
@@ -141,6 +179,17 @@
             success: function (res) {
                 $.each(res.data.list, function (index, item) {
                     $('#state').append(new Option(item.name, item.value));// 下拉菜单里添加元素
+                });
+                layui.form.render("select");
+            }
+        });
+        $.ajax({
+            url: '/material/fetch',
+            dataType: 'json',
+            type: 'get',
+            success: function (res) {
+                $.each(res.data.list, function (index, item) {
+                    $('#materialId').append(new Option(item.name, item.id));// 下拉菜单里添加元素
                 });
                 layui.form.render("select");
             }
@@ -163,9 +212,9 @@
             ,cols: [
                 [
                     {type:'numbers', width:80, title: ' ', totalRowText: '合计'}
-                    ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
-                        return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
-                    }}
+                    // ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
+                    //     return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
+                    // }}
                     ,{field:'batch', title: '批次', sort: true}
                     ,{field:'code',title: '编码'}
                     ,{field:'cementName', title: '水泥厂', sort: true}
@@ -217,6 +266,8 @@
                     ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
                     ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
                     ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
+                    ,{field:'realUpImg', width:137, title: '实装凭据', sort: true}
+                    ,{field:'realDownImg', width:137, title: '实卸凭据', sort: true}
                     ,{fixed: 'right', title: '操作', width:178, align:'center', toolbar: '#mapBar'}
                 ]
             ]
@@ -244,7 +295,7 @@
 
         table.on('tool(all)', function(obj){
             var data = obj.data;
-            if(data.acceptTime == null) {
+            if(data.acceptTime == null || data.downTime == null || data.car == null) {
                 layer.alert('任务尚未完成!')
                 return;
             }
@@ -260,9 +311,7 @@
                 ,btnAlign: 'c'
                 ,moveType: 1 //拖拽模式，0或者1
                 ,content: path
-                ,success: function(layero){
-
-                }
+                ,success: function(layero){}
             });
         });
     });
@@ -299,9 +348,9 @@
                 cols: [
                     [
                         {type:'numbers', width:80, title: ' ', totalRowText: '合计'}
-                        ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
-                            return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
-                        }}
+                        // ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
+                        //     return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
+                        // }}
                         ,{field:'batch', title: '批次', sort: true, sort: true}
                         ,{field:'code',title: '编码'}
                         ,{field:'cementName', title: '水泥厂', sort: true}
@@ -353,12 +402,12 @@
                         ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
                         ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
                         ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
+                        ,{field:'realUpImg', width:137, title: '实装凭据'}
+                        ,{field:'realDownImg', width:137, title: '实卸凭据'}
                         ,{fixed: 'right', title: '操作', width:178, align:'center', toolbar: '#mapBar'}
                     ]
                 ]
-                ,done: function (res, curr, count) {
-
-                }
+                ,done: function (res, curr, count) {}
             });
         });
     });
