@@ -80,7 +80,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">状态异常</label>
                         <div class="layui-input-inline">
-                            <select id="exception" lay-verify="required" lay-search="">
+                            <select id="hasError" lay-verify="required" lay-search="">
                                 <option value="-1">未选择</option>
                                 <option value="1">异常</option>
                                 <option value="0">无异常</option>
@@ -116,8 +116,6 @@
                         <div class="layui-input-inline">
                             <select id="logistic" lay-verify="required" lay-search="">
                                 <option value="-1">未选择</option>
-                                <option value="1">异常</option>
-                                <option value="0">无异常</option>
                             </select>
                         </div>
                     </div>
@@ -266,8 +264,8 @@
                     ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
                     ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
                     ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
-                    ,{field:'realUpImg', width:137, title: '实装凭据', sort: true}
-                    ,{field:'realDownImg', width:137, title: '实卸凭据', sort: true}
+                    ,{field:'realUpImg', width:137, title: '实装凭据', sort: true, templet: '#realUpImg'}
+                    ,{field:'realDownImg', width:137, title: '实卸凭据', sort: true, templet: '#realDownImg'}
                     ,{fixed: 'right', title: '操作', width:178, align:'center', toolbar: '#mapBar'}
                 ]
             ]
@@ -325,6 +323,7 @@
         var loadOverTime = $('#loadOverTime').val();
         var transportOverTime = $('#transportOverTime').val();
         var dateRange = $('#dateRange').val();
+        var hasError = $('#hasError').val();
         layui.use(['table', 'util'], function () {
             var table = layui.table;
             var util = layui.util;
@@ -332,7 +331,7 @@
                 elem: '#all',
                 url: '/history/task_review_history_fetch?batch=' + batch +'&cementId=' + cementId + '&sectionId=' + sectionId
                      + '&isChangeCar=' + isChangeCar + '&state=' + state + '&license=' + license + '&loadOverTime=' + loadOverTime
-                     + '&transportOverTime=' + transportOverTime + '&dateRange=' + dateRange,
+                     + '&transportOverTime=' + transportOverTime + '&dateRange=' + dateRange + '&hasError=' + hasError,
                 cellMinWidth: 80,
                 event:true,
                 page: true,
@@ -403,8 +402,8 @@
                         ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
                         ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
                         ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
-                        ,{field:'realUpImg', width:137, title: '实装凭据'}
-                        ,{field:'realDownImg', width:137, title: '实卸凭据'}
+                        ,{field:'realUpImg', width:137, title: '实装凭据', templet: '#realUpImg'}
+                        ,{field:'realDownImg', width:137, title: '实卸凭据', templet: '#realDownImg'}
                         ,{fixed: 'right', title: '操作', width:178, align:'center', toolbar: '#mapBar'}
                     ]
                 ]
@@ -415,5 +414,11 @@
 </script>
 <script type="text/html" id="mapBar">
     <a class="layui-btn layui-btn-xs" lay-event="orbit">查看历史轨迹</a>
+</script>
+<script type="text/html" id="realUpImg">
+    <a class="layui-table-link" href="{{d.realUpImg}}" target="_blank">点击查看</a>
+</script>
+<script type="text/html" id="realDownImg">
+    <a class="layui-table-link" href="{{d.realDownImg}}" target="_blank">点击查看</a>
 </script>
 </html>

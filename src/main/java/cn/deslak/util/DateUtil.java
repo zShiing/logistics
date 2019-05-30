@@ -26,7 +26,7 @@ public class DateUtil {
      * @return
      */
     public static String[] splitOnLayuiDateRangeString(String dateRange) {
-        if(dateRange == null) {
+        if(dateRange == null || dateRange.trim() == "") {
             return null;
         }
         return dateRange.split(" - ");

@@ -5,7 +5,6 @@ import cn.deslak.entity.DailyReviewHistory;
 import cn.deslak.entity.TaskReviewHistory;
 import cn.deslak.service.DataService;
 import cn.deslak.service.HistoryService;
-import cn.deslak.service.TaskService;
 import cn.deslak.util.BusinessUtil;
 import cn.deslak.util.DateUtil;
 import cn.deslak.vo.JsonResult;
@@ -13,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,6 +31,10 @@ public class HistoryServiceImpl implements HistoryService {
     private HistoryDao historyDao;
     @Autowired
     private DataService dataService;
+    //@Value("${hxgd.server1}")
+    private String serverUrl = "http://47.112.148.125";
+    //@Value("${hxgd.url-img}")
+    private String imgUrl = "/upload";
 
     @Override
     public JsonResult fetchDailyReviewHistoryByPage(Integer page, Integer limit, String batch, String section) {
@@ -47,13 +51,14 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
-                                             String loadOverTime, String transportOverTime, String dateRange) {
+                                             String loadOverTime, String transportOverTime, String dateRange, String hasError) {
         PageHelper.startPage(page,limit);
         String[] range = DateUtil.splitOnLayuiDateRangeString(dateRange);
         List<TaskReviewHistory> list = historyDao.fetchTaskReviewHistory(batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime,
-                                                                        range == null ? null : range[0], range == null ? null : range[1]);
+                                                                        range == null ? null : range[0], range == null ? null : range[1], hasError);
         PageInfo<TaskReviewHistory> pageInfo = new PageInfo(list);
-        pageInfo = addValueForProps(pageInfo);
+        addValueForProps(pageInfo.getList());
+        setImgUrl(pageInfo.getList());
         List<String> batchList = batchCount(historyDao.fetchBatchOfTask());
         JsonResult result = JsonResult.createSuccess();
         result.putData("list", pageInfo.getList());
@@ -74,13 +79,23 @@ public class HistoryServiceImpl implements HistoryService {
         return resultList;
     }
 
+    private void setImgUrl(List<TaskReviewHistory> list) {
+        for(TaskReviewHistory task : list) {
+            if(task.getRealUpImg() != null ) {
+                task.setRealUpImg(serverUrl + imgUrl + "/" + task.getRealUpImg());
+            }
+            if(task.getRealDownImg() != null ) {
+                task.setRealDownImg(serverUrl + imgUrl + "/" + task.getRealDownImg()+"/");
+            }
+        }
+    }
+
     /**
      * 把油耗值加入列表
-     * @param pageInfo
+     * @param list
      * @return
      */
-    public PageInfo<TaskReviewHistory> addValueForProps(PageInfo<TaskReviewHistory> pageInfo) {
-        List<TaskReviewHistory> list = pageInfo.getList();
+    private void addValueForProps(List<TaskReviewHistory> list) {
         for(TaskReviewHistory task : list) {
             if(!BusinessUtil.varValidation(task.getCar(), task.getAcceptTime(), task.getDownTime())) {
                 continue;
@@ -94,6 +109,5 @@ public class HistoryServiceImpl implements HistoryService {
                 task.setFuel(new BigDecimal(map.get("fuel").toString()));
             }
         }
-        return pageInfo;
     }
 }
