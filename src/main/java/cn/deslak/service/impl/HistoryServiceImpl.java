@@ -47,9 +47,11 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
-                                             String loadOverTime, String transportOverTime) {
+                                             String loadOverTime, String transportOverTime, String dateRange) {
         PageHelper.startPage(page,limit);
-        List<TaskReviewHistory> list = historyDao.fetchTaskReviewHistory(batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime);
+        String[] range = DateUtil.splitOnLayuiDateRangeString(dateRange);
+        List<TaskReviewHistory> list = historyDao.fetchTaskReviewHistory(batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime,
+                                                                        range == null ? null : range[0], range == null ? null : range[1]);
         PageInfo<TaskReviewHistory> pageInfo = new PageInfo(list);
         pageInfo = addValueForProps(pageInfo);
         List<String> batchList = batchCount(historyDao.fetchBatchOfTask());

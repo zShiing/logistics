@@ -2,6 +2,7 @@ package cn.deslak.service.impl;
 
 import cn.deslak.service.DataService;
 import cn.deslak.service.OrbitService;
+import cn.deslak.util.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,18 +20,9 @@ public class OrbitServiceImpl implements OrbitService {
 
     @Override
     public JSONObject truckOrbitHistory(String plateNum, String dateRange, String interval) {
-        String[] range = splitOnLayuiDateRangeString(dateRange);
+        String[] range = DateUtil.splitOnLayuiDateRangeString(dateRange);
         String resultString = dataService.orbitHistory(plateNum, range[0], range[1], interval);
         return JSONObject.parseObject(resultString);
-    }
-
-    /**
-     * 分割layui日期范围的字符串
-     * @param dateRange
-     * @return
-     */
-    private String[] splitOnLayuiDateRangeString(String dateRange) {
-        return dateRange.split(" - ");
     }
 
 }

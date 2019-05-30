@@ -140,6 +140,10 @@
         <if test="transportOverTime != null and transportOverTime == 0">
             and task_history_.isTraverOver = 0
         </if>
+        <if test="rangeStart != null and rangeEnd != null">
+            and LEFT ( task_history_.batch, 10 ) &gt;= #{rangeStart}
+            and LEFT ( task_history_.batch, 10 ) &lt;= #{rangeEnd}
+        </if>
         group by id
     </select>
 

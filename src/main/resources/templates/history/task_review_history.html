@@ -324,6 +324,7 @@
         var isChangeCar = $('#isChangeCar').val();
         var loadOverTime = $('#loadOverTime').val();
         var transportOverTime = $('#transportOverTime').val();
+        var dateRange = $('#dateRange').val();
         layui.use(['table', 'util'], function () {
             var table = layui.table;
             var util = layui.util;
@@ -331,7 +332,7 @@
                 elem: '#all',
                 url: '/history/task_review_history_fetch?batch=' + batch +'&cementId=' + cementId + '&sectionId=' + sectionId
                      + '&isChangeCar=' + isChangeCar + '&state=' + state + '&license=' + license + '&loadOverTime=' + loadOverTime
-                     + '&transportOverTime=' + transportOverTime,
+                     + '&transportOverTime=' + transportOverTime + '&dateRange=' + dateRange,
                 cellMinWidth: 80,
                 event:true,
                 page: true,

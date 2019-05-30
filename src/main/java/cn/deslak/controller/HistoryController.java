@@ -37,7 +37,7 @@ public class HistoryController extends BaseController{
     @ResponseBody
     @GetMapping("/task_review_history_fetch")
     public JsonResult taskReviewHistoryFetch(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
-                                             String loadOverTime, String transportOverTime) {
-        return historyService.fetchTaskReviewHistory(page, limit, batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime);
+                                             String loadOverTime, String transportOverTime, String dateRange) {
+        return historyService.fetchTaskReviewHistory(page, limit, batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime, dateRange);
     }
 }
