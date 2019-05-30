@@ -199,4 +199,16 @@ public class TaskReviewHistory {
      *是否运输超时
      */
     private Integer isTraverOver;
+    /**
+     *消耗燃料(升)
+     */
+    private BigDecimal fuel;
+    /**
+     *运输路程(千米)
+     */
+    private BigDecimal mileage;
+    /**
+     *驾驶时间(秒)
+     */
+    private Integer drivingTime;
 }

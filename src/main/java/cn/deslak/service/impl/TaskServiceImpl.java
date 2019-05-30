@@ -4,6 +4,8 @@ import cn.deslak.dao.TaskDao;
 import cn.deslak.entity.Task;
 import cn.deslak.service.DataService;
 import cn.deslak.service.TaskService;
+import cn.deslak.util.BusinessUtil;
+import cn.deslak.util.DateUtil;
 import cn.deslak.vo.JsonResult;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
@@ -58,55 +60,22 @@ public class TaskServiceImpl implements TaskService {
      * @param pageInfo
      * @return
      */
-    private PageInfo<Task> addValueForProps(PageInfo<Task> pageInfo) {
+    public PageInfo<Task> addValueForProps(PageInfo<Task> pageInfo) {
         List<Task> list = pageInfo.getList();
         for(Task task : list) {
-            if(!varValidation(task)) {
+            if(!BusinessUtil.varValidation(task.getLicense(), task.getAcceptTime(), task.getDownTime())) {
                 continue;
             }
-            String resultString = dataService.fuel(task.getLicense(), dateTransfer(task.getUpTime()), dateTransfer(task.getDownTime()));
+            String resultString = dataService.fuel(task.getLicense(), DateUtil.dateTransfer(task.getAcceptTime()), DateUtil.dateTransfer(task.getDownTime()));
             JSONObject jsonObject = JSONObject.parseObject(resultString);
             Map<String, Object> map = (Map<String, Object>)jsonObject.get("data");
-            if(!map.isEmpty()) {
+            if(!(map == null)) {
                 task.setMileage(new BigDecimal(map.get("mileage").toString()));
                 task.setDrivingTime(Integer.parseInt(map.get("driving_time").toString()));
                 task.setFuel(new BigDecimal(map.get("fuel").toString()));
             }
         }
         return pageInfo;
-    }
-
-    /**
-     * 检查参数合法
-     * @param task
-     * @return
-     */
-    private Boolean varValidation(Task task) {
-        String license = task.getLicense();
-        Date upTime = task.getUpTime();
-        Date downTime = task.getDownTime();
-        if(license == null || "".equals(license.trim())) {
-            return false;
-        }
-        if(upTime == null) {
-            return false;
-        }
-        if(downTime == null) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 转换日期格式
-     * @param date
-     * @return
-     */
-    private String dateTransfer(Date date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        Instant instant = date.toInstant();
-        ZoneId zoneId = ZoneId.systemDefault();
-        return LocalDateTime.ofInstant(instant, zoneId).format(formatter);
     }
 
 }

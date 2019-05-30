@@ -134,11 +134,10 @@
     }
 
     //直接执行
-    if([[${isSearch}]]) {
-        <![CDATA[
-            adds = [[${markers}]];
-        ]]>
-        render(adds);
+    if(![[${isSearch}]]) {
+        adds = '[[${markers}]]';
+        adds = JSON.parse(adds.replace(/&quot;/g, '"'));
+        renderMap(adds);
     }
 
     layui.use(['table'], function () {

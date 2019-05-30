@@ -19,7 +19,7 @@ public class DataServiceImpl implements DataService {
     public String fuel(String plateNum, String from, String to) {
         String path = "/v1/device/truck/fuel";
         Map<String, String> querys = new HashMap();
-        querys.put("plate_num", plateNum);
+        querys.put("plate_num", plateNum.trim());
         querys.put("from", from);
         querys.put("to", to);
         return InvokeEnter.getMethod(path, querys);

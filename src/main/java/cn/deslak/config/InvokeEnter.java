@@ -8,6 +8,7 @@ import cn.deslak.enums.Method;
 import cn.deslak.util.MessageDigestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,11 +17,14 @@ public class InvokeEnter {
 
     private static final Logger LOG = LoggerFactory.getLogger(InvokeEnter.class);
     //APP KEY
-    private final static String ACCESS_ID = "7vhr0b";
+    @Value("${g7.access-id}")
+    private static String ACCESS_ID;
     // APP密钥
-    private final static String SECRET_KEY = "bImcozhqJFj1crwMIouybjb5QaOgJ9Bx";
+    @Value("${g7.secret-key}")
+    private static String SECRET_KEY;
     //API域名
-    private final static String BaseURL = "openapi.huoyunren.com";
+    @Value("${g7.base-url}")
+    private static String BaseURL;
 
     /**
      * GET方法
