@@ -227,10 +227,10 @@
                     // ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
                     //     return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
                     // }}
-                    ,{field:'batch', title: '批次', sort: true}
-                    ,{field:'code',title: '编码'}
-                    ,{field:'cementName', title: '水泥厂', sort: true}
-                    ,{field:'sectionName', title: '标站'}
+                    ,{field:'batch', title: '批次', sort: true, minWidth: 120}
+                    ,{field:'code',title: '编码', minWidth: 150}
+                    ,{field:'cementName', title: '水泥厂', sort: true, minWidth: 100}
+                    ,{field:'sectionName', title: '标站', minWidth: 100}
                     ,{field:'state', title: '状态', templet: function (d) {
                         if(d.state == 0) {
                             return '关闭';
@@ -241,19 +241,19 @@
                         if(d.state == 2) {
                             return '未下发';
                         }
-                    }}
-                    ,{field:'tasks', title: '运输计划(吨)', totalRow: true}
-                    ,{field:'realUp', title: '实装(吨)', totalRow: true}
-                    ,{field:'realDown', title: '实卸(吨)', totalRow: true}
-                    ,{field:'beforeCar', title: '改派前车辆'}
-                    ,{field:'upOverTime', title: '装货超时时间'}
-                    ,{field:'traverOverTime', title: '运输超时时间'}
-                    ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
-                    ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
-                    ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
-                    ,{field:'realUpImg', width:137, title: '实装凭据', sort: true, templet: '#realUpImg'}
-                    ,{field:'realDownImg', width:137, title: '实卸凭据', sort: true, templet: '#realDownImg'}
-                    ,{fixed: 'right', title: '操作', width:178, align:'center', toolbar: '#mapBar'}
+                    }, minWidth: 50}
+                    ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 50}
+                    ,{field:'realUp', title: '实装(吨)', totalRow: true, minWidth: 50}
+                    ,{field:'realDown', title: '实卸(吨)', totalRow: true, minWidth: 50}
+                    ,{field:'beforeCar', title: '改派前车辆', minWidth: 50}
+                    ,{field:'upOverTime', title: '装货超时时间', minWidth: 100}
+                    ,{field:'traverOverTime', title: '运输超时时间', minWidth: 100}
+                    ,{field:'fuel', title: '耗油(升)', sort: true, minWidth: 50}
+                    ,{field:'drivingTime', title: '驾驶时间(秒)', sort: true, minWidth: 50}
+                    ,{field:'mileage',  title: '路程(千米)', sort: true, minWidth: 50}
+                    ,{field:'realUpImg',  title: '实装凭据', sort: true, templet: '#realUpImg', minWidth: 100}
+                    ,{field:'realDownImg', title: '实卸凭据', sort: true, templet: '#realDownImg', minWidth: 100}
+                    ,{fixed: 'right', title: '操作', align:'center', toolbar: '#mapBar', minWidth: 150}
                 ]
             ]
             ,done: function (res, curr, count) {
@@ -352,10 +352,10 @@
                         // ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
                         //     return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
                         // }}
-                        ,{field:'batch', title: '批次', sort: true, sort: true}
-                        ,{field:'code',title: '编码'}
-                        ,{field:'cementName', title: '水泥厂', sort: true}
-                        ,{field:'sectionName', title: '标站'}
+                        ,{field:'batch', title: '批次', sort: true, minWidth: 120}
+                        ,{field:'code',title: '编码', minWidth: 150}
+                        ,{field:'cementName', title: '水泥厂', sort: true, minWidth: 100}
+                        ,{field:'sectionName', title: '标站', minWidth: 100}
                         ,{field:'state', title: '状态', templet: function (d) {
                             if(d.state == 0) {
                                 return '关闭';
@@ -366,19 +366,19 @@
                             if(d.state == 2) {
                                 return '未下发';
                             }
-                        }}
-                        ,{field:'tasks', title: '运输计划(吨)', totalRow: true}
-                        ,{field:'realUp', title: '实装(吨)', totalRow: true}
-                        ,{field:'realDown', title: '实卸(吨)', totalRow: true}
-                        ,{field:'beforeCar', title: '改派前车辆'}
-                        ,{field:'upOverTime', title: '装货超时时间'}
-                        ,{field:'traverOverTime', title: '运输超时时间'}
-                        ,{field:'fuel', width:137, title: '耗油(升)', sort: true}
-                        ,{field:'drivingTime', width:137, title: '驾驶时间(秒)', sort: true}
-                        ,{field:'mileage', width:137, title: '路程(千米)', sort: true}
-                        ,{field:'realUpImg', width:137, title: '实装凭据', templet: '#realUpImg'}
-                        ,{field:'realDownImg', width:137, title: '实卸凭据', templet: '#realDownImg'}
-                        ,{fixed: 'right', title: '操作', width:178, align:'center', toolbar: '#mapBar'}
+                        }, minWidth: 50}
+                        ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 50}
+                        ,{field:'realUp', title: '实装(吨)', totalRow: true, minWidth: 50}
+                        ,{field:'realDown', title: '实卸(吨)', totalRow: true, minWidth: 50}
+                        ,{field:'beforeCar', title: '改派前车辆', minWidth: 50}
+                        ,{field:'upOverTime', title: '装货超时时间', minWidth: 100}
+                        ,{field:'traverOverTime', title: '运输超时时间', minWidth: 100}
+                        ,{field:'fuel', title: '耗油(升)', sort: true, minWidth: 50}
+                        ,{field:'drivingTime', title: '驾驶时间(秒)', sort: true, minWidth: 50}
+                        ,{field:'mileage',  title: '路程(千米)', sort: true, minWidth: 50}
+                        ,{field:'realUpImg',  title: '实装凭据', sort: true, templet: '#realUpImg', minWidth: 100}
+                        ,{field:'realDownImg', title: '实卸凭据', sort: true, templet: '#realDownImg', minWidth: 100}
+                        ,{fixed: 'right', title: '操作', align:'center', toolbar: '#mapBar', minWidth: 150}
                     ]
                 ]
                 ,done: function (res, curr, count) {}
