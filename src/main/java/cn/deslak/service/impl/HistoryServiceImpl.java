@@ -31,10 +31,10 @@ public class HistoryServiceImpl implements HistoryService {
     private HistoryDao historyDao;
     @Autowired
     private DataService dataService;
-    //@Value("${hxgd.server1}")
-    private String serverUrl = "http://47.112.148.125";
-    //@Value("${hxgd.url-img}")
-    private String imgUrl = "/upload";
+    @Value("${hxgd.server1}")
+    private String serverUrl;
+    @Value("${hxgd.img-url}")
+    private String imgUrl;
 
     @Override
     public JsonResult fetchDailyReviewHistoryByPage(Integer page, Integer limit, String batch, String section) {
@@ -51,11 +51,11 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
-                                             String loadOverTime, String transportOverTime, String dateRange, String hasError) {
+                                             String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic) {
         PageHelper.startPage(page,limit);
         String[] range = DateUtil.splitOnLayuiDateRangeString(dateRange);
         List<TaskReviewHistory> list = historyDao.fetchTaskReviewHistory(batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime,
-                                                                        range == null ? null : range[0], range == null ? null : range[1], hasError);
+                                                                        range == null ? null : range[0], range == null ? null : range[1], hasError, materialId, logistic);
         PageInfo<TaskReviewHistory> pageInfo = new PageInfo(list);
         addValueForProps(pageInfo.getList());
         setImgUrl(pageInfo.getList());
@@ -85,7 +85,7 @@ public class HistoryServiceImpl implements HistoryService {
                 task.setRealUpImg(serverUrl + imgUrl + "/" + task.getRealUpImg());
             }
             if(task.getRealDownImg() != null ) {
-                task.setRealDownImg(serverUrl + imgUrl + "/" + task.getRealDownImg()+"/");
+                task.setRealDownImg(serverUrl + imgUrl + "/" + task.getRealDownImg());
             }
         }
     }

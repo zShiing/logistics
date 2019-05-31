@@ -24,4 +24,9 @@ public class DictsController extends BaseController{
         return dictsService.fetchDicts(table ,field);
     }
 
+    @ResponseBody
+    @GetMapping("/state_special")
+    public JsonResult fetchForSpecialRequired() {
+        return dictsService.fetchForSpecialRequired();
+    }
 }

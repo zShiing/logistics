@@ -14,4 +14,11 @@
         select materials.id, materials.name, materials.position, materials.contact, materials.phone
         from materials
     </select>
+
+    <select id="fetchAllLogistic" resultType="java.lang.String">
+        select position
+        from materials
+        where position is not null
+        group by position
+    </select>
 </mapper>

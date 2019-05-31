@@ -23,4 +23,10 @@ public class DictsServiceImpl implements DictsService {
         return jsonResult;
     }
 
+    @Override
+    public JsonResult fetchForSpecialRequired() {
+        JsonResult jsonResult = JsonResult.createSuccess();
+        jsonResult.putData("list", disctDao.fetchForSpecialRequired());
+        return jsonResult;
+    }
 }

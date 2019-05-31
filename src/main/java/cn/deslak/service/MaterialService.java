@@ -14,4 +14,10 @@ public interface MaterialService extends BaseService{
      */
     JsonResult fetchAllMaterial();
 
+    /**
+     * 获取所有物流公司
+     * @return
+     */
+    JsonResult fetchAllLogistic();
+
 }

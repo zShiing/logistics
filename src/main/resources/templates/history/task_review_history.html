@@ -6,9 +6,11 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all">
+<!--    <link rel="stylesheet" th:href="@{/static/layui/css/formSelects-v4.css}" media="all">-->
+    <link rel="stylesheet" type="text/css" th:href="@{/static/layui/css/layui.css}"/>
     <script th:src="@{/static/layui/layui.js}"></script>
     <script th:src="@{/static/js/jquery.min.js}"></script>
+<!--    <script th:src="@{/static/js/formSelects-v4.js}" type="text/javascript" charset="utf-8"></script>-->
 </head>
 <body style="width: 96%;margin:0 auto;margin-top: 20px">
 <div>
@@ -22,7 +24,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">水泥厂</label>
                         <div class="layui-input-inline">
-                            <select id="cementId" lay-verify="required" lay-search="">
+                            <select id="cementId"  lay-search="">
                                 <option value="-1">未选择</option>
                             </select>
                         </div>
@@ -30,7 +32,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">标站</label>
                         <div class="layui-input-inline">
-                            <select id="sectionId" lay-verify="required" lay-search="">
+                            <select id="sectionId"  lay-search="">
                                 <option value="-1">未选择</option>
                             </select>
                         </div>
@@ -44,7 +46,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">批次选择</label>
                         <div class="layui-input-inline">
-                            <select id="batch" lay-verify="required" lay-search="">
+                            <select id="batch"  lay-search="">
                                 <option value="未知选择">未选择</option>
                             </select>
                         </div>
@@ -52,7 +54,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">任务状态</label>
                         <div class="layui-input-inline">
-                            <select id="state" lay-verify="required" lay-search="">
+                            <select id="state"  lay-search="">
                                 <option value="-1">未选择</option>
                             </select>
                         </div>
@@ -60,7 +62,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">装货超时</label>
                         <div class="layui-input-inline">
-                            <select id="loadOverTime" lay-verify="required" lay-search="">
+                            <select id="loadOverTime"  lay-search="">
                                 <option value="-1">未选择</option>
                                 <option value="1">超时</option>
                                 <option value="0">未超时</option>
@@ -70,7 +72,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">运输超时</label>
                         <div class="layui-input-inline">
-                            <select id="transportOverTime" lay-verify="required" lay-search="">
+                            <select id="transportOverTime"  lay-search="">
                                 <option value="-1">未选择</option>
                                 <option value="1">超时</option>
                                 <option value="0">未超时</option>
@@ -80,7 +82,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">状态异常</label>
                         <div class="layui-input-inline">
-                            <select id="hasError" lay-verify="required" lay-search="">
+                            <select id="hasError"  lay-search="">
                                 <option value="-1">未选择</option>
                                 <option value="1">异常</option>
                                 <option value="0">无异常</option>
@@ -90,7 +92,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">改派状态</label>
                         <div class="layui-input-inline">
-                            <select id="isChangeCar" lay-verify="required" lay-search="">
+                            <select id="isChangeCar"  lay-search="">
                                 <option value="-1">未选择</option>
                                 <option value="1">改派</option>
                                 <option value="0">未改派</option>
@@ -106,7 +108,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">物资公司</label>
                         <div class="layui-input-inline">
-                            <select id="materialId" lay-verify="required" lay-search="">
+                            <select id="materialId"  lay-search="" xm-select="selectId">
                                 <option value="-1">未选择</option>
                             </select>
                         </div>
@@ -114,7 +116,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">物流公司</label>
                         <div class="layui-input-inline">
-                            <select id="logistic" lay-verify="required" lay-search="">
+                            <select id="logistic"  lay-search="">
                                 <option value="-1">未选择</option>
                             </select>
                         </div>
@@ -171,7 +173,7 @@
             }
         });
         $.ajax({
-            url: '/dicts/fetch?table=task&field=state',
+            url: '/dicts/state_special',
             dataType: 'json',
             type: 'get',
             success: function (res) {
@@ -192,12 +194,24 @@
                 layui.form.render("select");
             }
         });
+        $.ajax({
+            url: '/material/fetch_logistic',
+            dataType: 'json',
+            type: 'get',
+            success: function (res) {
+                $.each(res.data.list, function (index, item) {
+                    $('#logistic').append(new Option(item, item));// 下拉菜单里添加元素
+                });
+                layui.form.render("select");
+            }
+        });
         table.render({
             elem: '#all'
             ,url:'/history/task_review_history_fetch'
             ,page: true
             ,event: true
             ,totalRow: true
+            ,method: 'post'
             ,parseData: function (res) {
                 var data = res.data;
                 return {
@@ -218,9 +232,6 @@
                     ,{field:'cementName', title: '水泥厂', sort: true}
                     ,{field:'sectionName', title: '标站'}
                     ,{field:'state', title: '状态', templet: function (d) {
-                        if(d.state == -1) {
-                            return '手动新增';
-                        }
                         if(d.state == 0) {
                             return '关闭';
                         }
@@ -229,30 +240,6 @@
                         }
                         if(d.state == 2) {
                             return '未下发';
-                        }
-                        if(d.state == 3) {
-                            return '已接单待装货';
-                        }
-                        if(d.state == 4) {
-                            return '装载超时';
-                        }
-                        if(d.state == 5) {
-                            return '已装货运输中';
-                        }
-                        if(d.state == 6) {
-                            return '运输超时';
-                        }
-                        if(d.state == 7) {
-                            return '已到达未卸货';
-                        }
-                        if(d.state == 8) {
-                            return '卸货超时';
-                        }
-                        if(d.state == 9) {
-                            return '已卸货待审核';
-                        }
-                        if(d.state == 10) {
-                            return '人工上报异常';
                         }
                     }}
                     ,{field:'tasks', title: '运输计划(吨)', totalRow: true}
@@ -322,19 +309,33 @@
         var isChangeCar = $('#isChangeCar').val();
         var loadOverTime = $('#loadOverTime').val();
         var transportOverTime = $('#transportOverTime').val();
-        var dateRange = $('#dateRange').val();
+        var dateRange = $('#dateRange').val();logistic
         var hasError = $('#hasError').val();
+        var materialId = $('#materialId').val();
+        var logistic = $('#logistic').val();
         layui.use(['table', 'util'], function () {
             var table = layui.table;
             var util = layui.util;
             table.render({
                 elem: '#all',
-                url: '/history/task_review_history_fetch?batch=' + batch +'&cementId=' + cementId + '&sectionId=' + sectionId
-                     + '&isChangeCar=' + isChangeCar + '&state=' + state + '&license=' + license + '&loadOverTime=' + loadOverTime
-                     + '&transportOverTime=' + transportOverTime + '&dateRange=' + dateRange + '&hasError=' + hasError,
-                cellMinWidth: 80,
+                url: '/history/task_review_history_fetch',
                 event:true,
+                where: {
+                    batch: batch,
+                    cementId: cementId,
+                    sectionId: sectionId,
+                    isChangeCar: isChangeCar,
+                    state: state,
+                    license: license,
+                    loadOverTime: loadOverTime,
+                    transportOverTime: transportOverTime,
+                    dateRange: dateRange,
+                    hasError: hasError,
+                    materialId: materialId,
+                    logistic: logistic,
+                },
                 page: true,
+                method: 'post',
                 totalRow: true,
                 parseData: function (res) {
                     var data = res.data;
@@ -356,9 +357,6 @@
                         ,{field:'cementName', title: '水泥厂', sort: true}
                         ,{field:'sectionName', title: '标站'}
                         ,{field:'state', title: '状态', templet: function (d) {
-                            if(d.state == -1) {
-                                return '手动新增';
-                            }
                             if(d.state == 0) {
                                 return '关闭';
                             }
@@ -367,30 +365,6 @@
                             }
                             if(d.state == 2) {
                                 return '未下发';
-                            }
-                            if(d.state == 3) {
-                                return '已接单待装货';
-                            }
-                            if(d.state == 4) {
-                                return '装载超时';
-                            }
-                            if(d.state == 5) {
-                                return '已装货运输中';
-                            }
-                            if(d.state == 6) {
-                                return '运输超时';
-                            }
-                            if(d.state == 7) {
-                                return '已到达未卸货';
-                            }
-                            if(d.state == 8) {
-                                return '卸货超时';
-                            }
-                            if(d.state == 9) {
-                                return '已卸货待审核';
-                            }
-                            if(d.state == 10) {
-                                return '人工上报异常';
                             }
                         }}
                         ,{field:'tasks', title: '运输计划(吨)', totalRow: true}
@@ -416,9 +390,18 @@
     <a class="layui-btn layui-btn-xs" lay-event="orbit">查看历史轨迹</a>
 </script>
 <script type="text/html" id="realUpImg">
-    <a class="layui-table-link" href="{{d.realUpImg}}" target="_blank">点击查看</a>
+    {{# if(d.realUpImg != null){ }}
+        <a class="layui-table-link" href="{{d.realUpImg}}" target="_blank">点击查看</a>
+    {{# } else {}}
+        无
+    {{# } }}
 </script>
 <script type="text/html" id="realDownImg">
-    <a class="layui-table-link" href="{{d.realDownImg}}" target="_blank">点击查看</a>
+    {{#  if(d.realDownImg != null){ }}
+        <a class="layui-table-link" href="{{d.realDownImg}}" target="_blank">点击查看</a>
+    {{#  } else { }}
+        无
+    {{#  } }}
+
 </script>
 </html>

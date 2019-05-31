@@ -22,4 +22,10 @@ public interface DisctDao {
      */
     List<Dicts> fetchDicts(@Param("table") String table, @Param("field") String field);
 
+    /**
+     * 特殊需求获取数据字典
+     * @return
+     */
+    List<Dicts> fetchForSpecialRequired();
+
 }

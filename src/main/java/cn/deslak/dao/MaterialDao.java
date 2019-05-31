@@ -19,4 +19,10 @@ public interface MaterialDao {
      */
     List<Material> fetchAllMaterial();
 
+    /**
+     * 获取所有物流公司
+     * @return
+     */
+    List<String> fetchAllLogistic();
+
 }

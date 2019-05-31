@@ -111,6 +111,8 @@
         inner join cement cement_ on task_history_.cement_id = cement_.id
         inner join section section_ on task_history_.section_id = section_.id
         inner join car car_ on task_history_.car_id = car_id
+        inner join route route_ on task_history_.route_id = route_.id
+        inner join materials materials_ on route_.mat_id = materials_.id
         where 1 = 1
         <if test="batch != null and batch != '未知选择'">
             and task_history_.batch like "%-"#{batch}
@@ -151,6 +153,12 @@
         </if>
         <if test="hasError != -1 and hasError == 0">
             and task_history_.errorMsg is null
+        </if>
+        <if test="materialId != -1 and materialId != null">
+            and materials_.id = #{materialId}
+        </if>
+        <if test="logistic != -1 and logistic != null">
+            and materials_.position = #{logistic}
         </if>
         group by id
     </select>

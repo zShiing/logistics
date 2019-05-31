@@ -16,4 +16,10 @@ public interface DictsService extends BaseService{
      */
     JsonResult fetchDicts(String table, String field);
 
+    /**
+     * 特殊需求获取数据字典
+     * @return
+     */
+    JsonResult fetchForSpecialRequired();
+
 }

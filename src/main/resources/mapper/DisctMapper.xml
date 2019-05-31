@@ -21,4 +21,12 @@
             and dicts.field = #{field}
         </if>
     </select>
+
+    <select id="fetchForSpecialRequired" resultMap="BaseResultMap">
+        select dicts.id, dicts.value, dicts.name, dicts.object, dicts.field, dicts.ext
+        from dicts
+        where dicts.object = 'task'
+        and dicts.field = 'state'
+        and name in ('关闭','完成','未下发')
+    </select>
 </mapper>

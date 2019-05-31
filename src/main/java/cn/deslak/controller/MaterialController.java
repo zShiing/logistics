@@ -20,8 +20,14 @@ public class MaterialController extends BaseController{
 
     @ResponseBody
     @GetMapping("/fetch")
-    public JsonResult fetchAllCement() {
+    public JsonResult fetchAllMaterial() {
         return materialService.fetchAllMaterial();
+    }
+
+    @ResponseBody
+    @GetMapping("/fetch_logistic")
+    public JsonResult fetchAllLogistic() {
+        return materialService.fetchAllLogistic();
     }
 
 }
