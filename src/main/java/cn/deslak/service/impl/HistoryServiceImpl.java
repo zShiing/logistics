@@ -13,6 +13,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -36,6 +37,7 @@ public class HistoryServiceImpl implements HistoryService {
     @Value("${hxgd.img-url}")
     private String imgUrl;
 
+    @Cacheable("fetchDailyReviewHistoryByPage")
     @Override
     public JsonResult fetchDailyReviewHistoryByPage(Integer page, Integer limit, String batch, String section) {
         PageHelper.startPage(page,limit);
@@ -49,6 +51,7 @@ public class HistoryServiceImpl implements HistoryService {
         return result;
     }
 
+    @Cacheable("fetchTaskReviewHistory")
     @Override
     public JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
                                              String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic) {

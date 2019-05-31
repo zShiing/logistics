@@ -5,6 +5,7 @@ import cn.deslak.service.OrbitService;
 import cn.deslak.util.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 
@@ -18,6 +19,7 @@ public class OrbitServiceImpl implements OrbitService {
     @Autowired
     private DataService dataService;
 
+    @Cacheable("truckOrbitHistory")
     @Override
     public JSONObject truckOrbitHistory(String plateNum, String dateRange, String interval) {
         String[] range = DateUtil.splitOnLayuiDateRangeString(dateRange);
