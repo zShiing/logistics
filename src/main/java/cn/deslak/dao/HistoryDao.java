@@ -59,4 +59,19 @@ public interface HistoryDao {
      */
     List<TaskReviewHistory> fetchTaskRefuseEdit();
 
+    /**
+     * 修改值
+     * @param field
+     * @param value
+     * @param code
+     * @return
+     */
+    Integer taskRefuseEditUpdate(@Param("field") String field, @Param("value") String value, @Param("code") String code);
+
+    /**
+     * 同步任务拒绝
+     * @return
+     */
+    Integer syncRefuseEdit();
+
 }

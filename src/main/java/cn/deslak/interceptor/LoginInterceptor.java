@@ -1,7 +1,10 @@
 package cn.deslak.interceptor;
 
+import cn.deslak.entity.User;
+import cn.deslak.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,14 +18,22 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginInterceptor.class);
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Object user = request.getSession().getAttribute("user");
-        if(user == null) {
-            return false;
+        User user = (User) request.getSession().getAttribute("user");
+        if(!(request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest"))) {
+            if(user != null && null != userService.findById(user.getId())) {
+                LOG.info("用户登录");
+                return true;
+            }
+        }else {
+            return true;
         }
-        LOG.info("用户登录");
-        return true;
+        response.sendRedirect("/login");
+        return false;
     }
 
     @Override

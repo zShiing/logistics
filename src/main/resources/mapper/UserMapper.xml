@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.deslak.dao.UserDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.deslak.entity.User">
+        <result column="id" property="id"/>
+        <result column="eova_id" property="eovaId"/>
+        <result column="login_id" property="loginId"/>
+        <result column="login_pwd" property="loginPwd"/>
+        <result column="nickname" property="nickname"/>
+        <result column="rid" property="rid"/>
+        <result column="shenfenId" property="shenfenId"/>
+    </resultMap>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select users.id, users.eova_id, users.login_id, users.login_pwd, users.nickname, users.rid, users.shenfenId
+        from users
+    </select>
+
+    <select id="findByNameNPwd" resultMap="BaseResultMap">
+        select users.id, users.eova_id, users.login_id, users.login_pwd, users.nickname, users.rid, users.shenfenId
+        from users
+        where users.login_id = #{name}
+        and users.login_pwd = #{password}
+    </select>
+</mapper>

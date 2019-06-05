@@ -15,120 +15,87 @@
 <body style="width: 96%;margin:0 auto;margin-top: 20px">
 <div>
     <div class="layui-container-fluid">
-<!--        <div class="layui-row layui-col-space12">-->
-<!--            <form class="layui-form layui-form-pane" action="" method="get">-->
-<!--                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">-->
-<!--                    <legend>任务审核历史</legend>-->
-<!--                </fieldset>-->
-<!--                <div class="layui-form-item">-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">水泥厂</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="cementId"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">标站</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="sectionId"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">批次日期</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <input type="text" class="layui-input" id="dateRange" placeholder="请选择日期">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">批次选择</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="batch"  lay-search="">-->
-<!--                                <option value="未知选择">未选择</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">任务状态</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="state"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">装货超时</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="loadOverTime"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                                <option value="1">超时</option>-->
-<!--                                <option value="0">未超时</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">运输超时</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="transportOverTime"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                                <option value="1">超时</option>-->
-<!--                                <option value="0">未超时</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">状态异常</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="hasError"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                                <option value="1">异常</option>-->
-<!--                                <option value="0">无异常</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">改派状态</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="isChangeCar"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                                <option value="1">改派</option>-->
-<!--                                <option value="0">未改派</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">改派前车辆</label>-->
-<!--                        <div class="layui-input-block">-->
-<!--                            <input id="license" type="text" name="license" lay-verify="title" autocomplete="off" placeholder="车牌号" class="layui-input">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">物资公司</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="materialId"  lay-search="" xm-select="selectId">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">物流公司</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="logistic"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </form>-->
-<!--            <div class="layui-inline">-->
-<!--                <button id="counts" class="layui-btn layui-btn-fluid">-->
-<!--                    查询-->
-<!--                </button>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="layui-row layui-col-space12">
+            <form class="layui-form layui-form-pane" action="" method="get">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>任务拒绝修改</legend>
+                </fieldset>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">水泥厂</label>
+                        <div class="layui-input-inline">
+                            <select id="cementId"  lay-search="">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">标站</label>
+                        <div class="layui-input-inline">
+                            <select id="sectionId"  lay-search="">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">装货超时</label>
+                        <div class="layui-input-inline">
+                            <select id="loadOverTime"  lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">超时</option>
+                                <option value="0">未超时</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">运输超时</label>
+                        <div class="layui-input-inline">
+                            <select id="transportOverTime"  lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">超时</option>
+                                <option value="0">未超时</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态异常</label>
+                        <div class="layui-input-inline">
+                            <select id="hasError"  lay-search="">
+                                <option value="-1">未选择</option>
+                                <option value="1">异常</option>
+                                <option value="0">无异常</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物资公司</label>
+                        <div class="layui-input-inline">
+                            <select id="materialId"  lay-search="" xm-select="selectId">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物流公司</label>
+                        <div class="layui-input-inline">
+                            <select id="logistic"  lay-search="">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-inline">
+                <button id="sync" class="layui-btn layui-btn-fluid">
+                    同步任务拒绝表
+                </button>
+            </div>
+            <div class="layui-inline">
+                <button id="counts" class="layui-btn layui-btn-fluid">
+                    查询
+                </button>
+            </div>
+        </div>
     </div>
     <div>
         <div class="layui-row layui-col-space12">
@@ -205,6 +172,27 @@
                 layui.form.render("select");
             }
         });
+        table.on('edit(all)', function(obj){
+            var data = obj.data; //得到所在行所有键值
+            var value = obj.value; //得到修改后的值
+            var field = obj.field; //得到字段
+            var code = data.code;
+            $.ajax({
+                url: '/history/task_refuse_edit_update?field=' + field + '&value=' + value + '&code=' + code,
+                dataType: 'json',
+                type: 'get',
+                success: function (res) {
+                    if(res.success) {
+                        layer.msg('修改成功！');
+                    } else {
+                        layer.msg('操作失败！');
+                    }
+                    table.reload('all',{
+                        data:table.cache.all,
+                    })
+                }
+            });
+        });
         table.render({
             elem: '#all'
             ,url:'/history/task_refuse_edit_fetch'
@@ -231,18 +219,7 @@
                     ,{field:'code',title: '编码', minWidth: 150}
                     ,{field:'cementName', title: '水泥厂', sort: true, minWidth: 100}
                     ,{field:'sectionName', title: '标站', minWidth: 100}
-                    ,{field:'state', title: '状态', templet: function (d) {
-                        if(d.state == 0) {
-                            return '关闭';
-                        }
-                        if(d.state == 1) {
-                            return '完成';
-                        }
-                        if(d.state == 2) {
-                            return '未下发';
-                        }
-                    }, minWidth: 50}
-                    ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 50}
+                    ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 50, edit: 'text'}
                     ,{field:'realUp', title: '实装(吨)', totalRow: true, minWidth: 50}
                     ,{field:'realDown', title: '实卸(吨)', totalRow: true, minWidth: 50}
                     ,{field:'beforeCar', title: '改派前车辆', minWidth: 50}
@@ -318,7 +295,7 @@
             var util = layui.util;
             table.render({
                 elem: '#all',
-                url: '/history/task_review_history_fetch',
+                url: '/history/task_refuse_edit_fetch',
                 event:true,
                 where: {
                     batch: batch,
@@ -356,17 +333,6 @@
                         ,{field:'code',title: '编码', minWidth: 150}
                         ,{field:'cementName', title: '水泥厂', sort: true, minWidth: 100}
                         ,{field:'sectionName', title: '标站', minWidth: 100}
-                        ,{field:'state', title: '状态', templet: function (d) {
-                            if(d.state == 0) {
-                                return '关闭';
-                            }
-                            if(d.state == 1) {
-                                return '完成';
-                            }
-                            if(d.state == 2) {
-                                return '未下发';
-                            }
-                        }, minWidth: 50}
                         ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 50}
                         ,{field:'realUp', title: '实装(吨)', totalRow: true, minWidth: 50}
                         ,{field:'realDown', title: '实卸(吨)', totalRow: true, minWidth: 50}
@@ -383,6 +349,20 @@
                 ]
                 ,done: function (res, curr, count) {}
             });
+        });
+    });
+    $(document).on('click', '#sync', function () {
+        $.ajax({
+            url: '/history/sync_refuse_edit',
+            dataType: 'json',
+            type: 'get',
+            success: function (res) {
+                if(res.success) {
+                    layer.msg('同步成功！');
+                } else {
+                    layer.msg('同步失败！');
+                }
+            }
         });
     });
 </script>
@@ -402,6 +382,5 @@
     {{#  } else { }}
         无
     {{#  } }}
-
 </script>
 </html>

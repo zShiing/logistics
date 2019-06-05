@@ -191,6 +191,15 @@
     </select>
 
     <insert id="syncRefuseEdit">
-        insert into task_refuse_edit (select * from task_refuse)
+        insert into task_refuse_edit( select * from task_refuse where code not in (select code from task_refuse_edit))
     </insert>
+
+    <update id="taskRefuseEditUpdate" parameterType="java.lang.String">
+        update task_refuse_edit
+        <set>
+            <if test="field = 'tasks'">tasks</if>
+        </set>
+        = #{value}
+        where code = #{code}
+    </update>
 </mapper>

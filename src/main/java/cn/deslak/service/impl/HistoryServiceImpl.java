@@ -120,4 +120,24 @@ public class HistoryServiceImpl implements HistoryService {
         jsonResult.putData("list", historyDao.fetchTaskRefuseEdit());
         return jsonResult;
     }
+
+    @Override
+    public JsonResult taskRefuseEditUpdate(String field, String value, String code) {
+        JsonResult jsonResult = JsonResult.createSuccess();
+        Integer result = historyDao.taskRefuseEditUpdate(field, value, code);
+        if(result < 0) {
+            return JsonResult.createFaild("修改失败");
+        }
+        return jsonResult;
+    }
+
+    @Override
+    public JsonResult syncRefuseEdit() {
+        JsonResult jsonResult = JsonResult.createSuccess();
+        Integer result = historyDao.syncRefuseEdit();
+        if(result < 0) {
+            return JsonResult.createFaild("同步失败");
+        }
+        return jsonResult;
+    }
 }

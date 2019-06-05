@@ -13,4 +13,8 @@ public interface HistoryService extends BaseService{
                                       String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic);
 
     JsonResult fetchTaskRefuseEdit(Integer page, Integer limit);
+
+    JsonResult taskRefuseEditUpdate(String field, String value, String code);
+
+    JsonResult syncRefuseEdit();
 }

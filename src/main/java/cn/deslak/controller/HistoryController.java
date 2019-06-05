@@ -50,4 +50,16 @@ public class HistoryController extends BaseController{
     public JsonResult fetchTaskRefuseEdit(Integer page, Integer limit) {
         return historyService.fetchTaskRefuseEdit(page, limit);
     }
+
+    @ResponseBody
+    @GetMapping("/task_refuse_edit_update")
+    public JsonResult taskRefuseEditUpdate(String field, String value, String code) {
+        return historyService.taskRefuseEditUpdate(field, value, code);
+    }
+
+    @ResponseBody
+    @GetMapping("/sync_refuse_edit")
+    public JsonResult syncRefuseEdit() {
+        return historyService.syncRefuseEdit();
+    }
 }
