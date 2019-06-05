@@ -18,7 +18,7 @@
         <div class="layui-row layui-col-space12">
             <form class="layui-form layui-form-pane" action="" method="get">
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                    <legend>任务审核历史(批次)</legend>
+                    <legend>任务审核历史(日期)</legend>
                 </fieldset>
                 <div class="layui-form-item">
                     <div class="layui-inline">
@@ -34,20 +34,6 @@
                         <div class="layui-input-inline">
                             <select id="sectionId"  lay-search="">
                                 <option value="-1">未选择</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">批次日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="dateRange" placeholder="请选择日期">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">批次选择</label>
-                        <div class="layui-input-inline">
-                            <select id="batch"  lay-search="">
-                                <option value="未知选择">未选择</option>
                             </select>
                         </div>
                     </div>
@@ -121,20 +107,38 @@
                             </select>
                         </div>
                     </div>
-<!--                    <div class="layui-inline">-->
-<!--                        <label class="layui-form-label">车队</label>-->
-<!--                        <div class="layui-input-inline">-->
-<!--                            <select id="motorcadeId"  lay-search="">-->
-<!--                                <option value="-1">未选择</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="layui-inline">
+                        <label class="layui-form-label">车队</label>
+                        <div class="layui-input-inline">
+                            <select id="motorcadeId"  lay-search="">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">车辆</label>
                         <div class="layui-input-inline">
                             <select id="carId"  lay-search="">
                                 <option value="-1">未选择</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">接单日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="acceptTime" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">装货日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="upTime" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">卸货日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="downTime" placeholder="请选择日期">
                         </div>
                     </div>
                 </div>
@@ -159,7 +163,15 @@
     layui.use(['table', 'util', 'laydate'], function () {
         var laydate = layui.laydate;
         laydate.render({
-            elem: '#dateRange'
+            elem: '#acceptTime'
+            ,range: true
+        });
+        laydate.render({
+            elem: '#upTime'
+            ,range: true
+        });
+        laydate.render({
+            elem: '#downTime'
             ,range: true
         });
         var table = layui.table;

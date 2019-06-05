@@ -118,9 +118,9 @@
         inner join cement cement_ on task_history_.cement_id = cement_.id
         inner join section section_ on task_history_.section_id = section_.id
         inner join car car_ on task_history_.car_id = car_id
+        inner join motorcade motorcade_ on car_.moto_id = motorcade_.id
         inner join route route_ on task_history_.route_id = route_.id
         inner join materials materials_ on route_.mat_id = materials_.id
-        inner join motorcade motorcade_ on car_.moto_id = motorcade_.id
         inner join huowu huowu_ on task_history_.huowu_id = huowu_.id
         where 1 = 1
         <if test="batch != null and batch != '未知选择'">

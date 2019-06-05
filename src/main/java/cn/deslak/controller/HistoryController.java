@@ -46,6 +46,11 @@ public class HistoryController extends BaseController{
                                                     ,materialId, logistic, motorcadeId, carId);
     }
 
+    @GetMapping("/task_review_history_date")
+    public String taskReviewHistoryDate() {
+        return "history/task_review_history_date";
+    }
+
     @ResponseBody
     @PostMapping("/task_refuse_edit_fetch")
     public JsonResult fetchTaskRefuseEdit(Integer page, Integer limit) {
