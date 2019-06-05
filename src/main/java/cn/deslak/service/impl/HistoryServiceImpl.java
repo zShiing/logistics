@@ -17,10 +17,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zhang_xin on 2019/05/24.
@@ -54,11 +51,13 @@ public class HistoryServiceImpl implements HistoryService {
     @Cacheable("fetchTaskReviewHistory")
     @Override
     public JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
-                                             String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic) {
+                                             String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic,
+                                             String motorcadeId, String carId) {
         PageHelper.startPage(page,limit);
         String[] range = DateUtil.splitOnLayuiDateRangeString(dateRange);
         List<TaskReviewHistory> list = historyDao.fetchTaskReviewHistory(batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime,
-                                                                        range == null ? null : range[0], range == null ? null : range[1], hasError, materialId, logistic);
+                                                                        range == null ? null : range[0], range == null ? null : range[1], hasError, materialId, logistic,
+                                                                        motorcadeId, carId);
         PageInfo<TaskReviewHistory> pageInfo = new PageInfo(list);
         addValueForProps(pageInfo.getList());
         setImgUrl(pageInfo.getList());
@@ -76,10 +75,9 @@ public class HistoryServiceImpl implements HistoryService {
      * @return
      */
     private List<String> batchCount(List<String> batchList) {
-        List<String> resultList = new ArrayList(batchList.size());
+        Set<String> resultList = new LinkedHashSet(batchList.size());
         batchList.forEach(item -> resultList.add(item.substring(item.length() - 1)));
-        Collections.sort(resultList);
-        return resultList;
+        return new ArrayList<>(resultList);
     }
 
     private void setImgUrl(List<TaskReviewHistory> list) {

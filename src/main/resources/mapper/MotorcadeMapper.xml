@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.deslak.dao.MotorcadeDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.deslak.entity.Motorcade">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="captain" property="captain"/>
+        <result column="area" property="area"/>
+    </resultMap>
+
+    <select id="fetchAllMotorcade" resultMap="BaseResultMap">
+        select motorcade.id, motorcade.name, motorcade.captain, motorcade.area
+        from motorcade
+    </select>
+
+</mapper>

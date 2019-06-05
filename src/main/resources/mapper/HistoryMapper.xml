@@ -53,7 +53,9 @@
         <result column="sectionName" property="sectionName"/>
         <result column="car_id" property="carId"/>
         <result column="car" property="car"/>
+        <result column="motorcadeName" property="motorcadeName"/>
         <result column="route_id" property="routeId"/>
+        <result column="routeName" property="routeName"/>
         <result column="driver" property="driver"/>
         <result column="tasks" property="tasks"/>
         <result column="real_up" property="realUp"/>
@@ -74,6 +76,7 @@
         <result column="isUp" property="isUp"/>
         <result column="isDown" property="isDown"/>
         <result column="pici" property="pici"/>
+        <result column="riqi" property="riqi"/>
         <result column="license" property="license"/>
         <result column="batch" property="batch"/>
         <result column="gen_date" property="genDate"/>
@@ -85,6 +88,8 @@
         <result column="upOverTime" property="upOverTime"/>
         <result column="traverOverTime" property="traverOverTime"/>
         <result column="errorMsg" property="errorMsg"/>
+        <result column="remarkUp" property="remarkUp"/>
+        <result column="remarkDown" property="remarkDown"/>
     </resultMap>
 
     <select id="fetchDailyReviewHistory" resultMap="DailyReviewHistoryResultMap">
@@ -106,13 +111,17 @@
         task_history_.batch as batch, task_history_.tasks as tasks, task_history_.real_up as real_up, task_history_.real_down as real_down, task_history_.gen_date as gen_date,
         task_history_.beforeCar as beforeCar, task_history_.upOverTime as upOverTime, task_history_.traverOverTime as traverOverTime, task_history_.accept_time as accept_time,
         task_history_.down_time as down_time, car_.license as car, task_history_.real_up_img as real_up_img, task_history_.real_down_img as real_down_img,
-        task_history_.errorMsg as errorMsg
+        task_history_.errorMsg as errorMsg, motorcade_.name as motorcadeName, route_.name as routeName, task_history_.weight as weight, task_history_.weight2 as weight2,
+        task_history_.pass1 as pass1, task_history_.pass2 as pass2, task_history_.fin_time as fin_time, task_history_.huowu_name as huowu_name, task_history_.up_time as up_time,
+        task_history_.remarkUp as remarkUp, task_history_.remarkDown as remarkDown
         from task_history task_history_
         inner join cement cement_ on task_history_.cement_id = cement_.id
         inner join section section_ on task_history_.section_id = section_.id
         inner join car car_ on task_history_.car_id = car_id
         inner join route route_ on task_history_.route_id = route_.id
         inner join materials materials_ on route_.mat_id = materials_.id
+        inner join motorcade motorcade_ on car_.moto_id = motorcade_.id
+        inner join huowu huowu_ on task_history_.huowu_id = huowu_.id
         where 1 = 1
         <if test="batch != null and batch != '未知选择'">
             and task_history_.batch like "%-"#{batch}
@@ -159,6 +168,12 @@
         </if>
         <if test="logistic != -1 and logistic != null">
             and materials_.position = #{logistic}
+        </if>
+        <if test="motorcadeId != -1 and motorcadeId != null">
+            and car_.moto_id = #{motorcadeId}
+        </if>
+        <if test="carId != -1 and carId != null">
+            and task_history_.car_id = #{carId}
         </if>
         group by id
     </select>

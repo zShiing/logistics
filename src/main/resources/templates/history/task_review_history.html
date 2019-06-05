@@ -18,7 +18,7 @@
         <div class="layui-row layui-col-space12">
             <form class="layui-form layui-form-pane" action="" method="get">
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                    <legend>任务审核历史</legend>
+                    <legend>任务审核历史(批次)</legend>
                 </fieldset>
                 <div class="layui-form-item">
                     <div class="layui-inline">
@@ -121,6 +121,22 @@
                             </select>
                         </div>
                     </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">车队</label>
+                        <div class="layui-input-inline">
+                            <select id="motorcadeId"  lay-search="">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">车辆</label>
+                        <div class="layui-input-inline">
+                            <select id="carId"  lay-search="">
+                                <option value="-1">未选择</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </form>
             <div class="layui-inline">
@@ -142,7 +158,6 @@
 <script>
     layui.use(['table', 'util', 'laydate'], function () {
         var laydate = layui.laydate;
-        //日期时间范围
         laydate.render({
             elem: '#dateRange'
             ,range: true
@@ -205,6 +220,28 @@
                 layui.form.render("select");
             }
         });
+        $.ajax({
+            url: '/truck/fetch',
+            dataType: 'json',
+            type: 'get',
+            success: function (res) {
+                $.each(res.data.list, function (index, item) {
+                    $('#carId').append(new Option(item.license, item.id));// 下拉菜单里添加元素
+                });
+                layui.form.render("select");
+            }
+        });
+        $.ajax({
+            url: '/motorcade/fetch',
+            dataType: 'json',
+            type: 'get',
+            success: function (res) {
+                $.each(res.data.list, function (index, item) {
+                    $('#motorcadeId').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+                });
+                layui.form.render("select");
+            }
+        });
         table.render({
             elem: '#all'
             ,url:'/history/task_review_history_fetch'
@@ -224,13 +261,14 @@
             ,cols: [
                 [
                     {type:'numbers', width:80, title: ' ', totalRowText: '合计'}
-                    // ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
-                    //     return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
-                    // }}
                     ,{field:'batch', title: '批次', sort: true, minWidth: 120}
                     ,{field:'code',title: '编码', minWidth: 150}
                     ,{field:'cementName', title: '水泥厂', sort: true, minWidth: 100}
                     ,{field:'sectionName', title: '标站', minWidth: 100}
+                    ,{field:'car', title: '车辆', minWidth: 100}
+                    ,{field:'motorcadeName', title: '车队', minWidth: 100}
+                    ,{field:'routeName', title: '路线', minWidth: 100}
+                    ,{field:'huowuName', title: '货物', minWidth: 100}
                     ,{field:'state', title: '状态', templet: function (d) {
                         if(d.state == 0) {
                             return '关闭';
@@ -241,16 +279,19 @@
                         if(d.state == 2) {
                             return '未下发';
                         }
-                    }, minWidth: 50}
-                    ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 50}
-                    ,{field:'realUp', title: '实装(吨)', totalRow: true, minWidth: 50}
-                    ,{field:'realDown', title: '实卸(吨)', totalRow: true, minWidth: 50}
-                    ,{field:'beforeCar', title: '改派前车辆', minWidth: 50}
+                    }, minWidth: 80}
+                    ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 100}
+                    ,{field:'realUp', title: '实装(吨)', totalRow: true, minWidth: 100}
+                    ,{field:'realDown', title: '实卸(吨)', totalRow: true, minWidth: 100}
+                    ,{field:'acceptTime', title: '接单时间', minWidth: 100}
+                    ,{field:'upTime', title: '装货时间', minWidth: 100}
+                    ,{field:'downTime', title: '卸货时间', minWidth: 100}
+                    ,{field:'beforeCar', title: '改派前车辆', minWidth: 100}
                     ,{field:'upOverTime', title: '装货超时时间', minWidth: 100}
                     ,{field:'traverOverTime', title: '运输超时时间', minWidth: 100}
-                    ,{field:'fuel', title: '耗油(升)', sort: true, minWidth: 50}
-                    ,{field:'drivingTime', title: '驾驶时间(秒)', sort: true, minWidth: 50}
-                    ,{field:'mileage',  title: '路程(千米)', sort: true, minWidth: 50}
+                    ,{field:'fuel', title: '耗油(升)', sort: true, minWidth: 100}
+                    ,{field:'drivingTime', title: '驾驶时间(秒)', sort: true, minWidth: 100}
+                    ,{field:'mileage',  title: '路程(千米)', sort: true, minWidth: 100}
                     ,{field:'realUpImg',  title: '实装凭据', sort: true, templet: '#realUpImg', minWidth: 100}
                     ,{field:'realDownImg', title: '实卸凭据', sort: true, templet: '#realDownImg', minWidth: 100}
                     ,{fixed: 'right', title: '操作', align:'center', toolbar: '#mapBar', minWidth: 150}
@@ -296,7 +337,9 @@
                 ,btnAlign: 'c'
                 ,moveType: 1 //拖拽模式，0或者1
                 ,content: path
-                ,success: function(layero){}
+                ,success: function (layero) {
+                    console.log(layero);
+                }
             });
         });
     });
@@ -313,6 +356,8 @@
         var hasError = $('#hasError').val();
         var materialId = $('#materialId').val();
         var logistic = $('#logistic').val();
+        var motorcadeId = $('#motorcadeId').val();
+        var carId = $('#carId').val();
         layui.use(['table', 'util'], function () {
             var table = layui.table;
             var util = layui.util;
@@ -333,6 +378,8 @@
                     hasError: hasError,
                     materialId: materialId,
                     logistic: logistic,
+                    motorcadeId: motorcadeId,
+                    carId: carId
                 },
                 page: true,
                 method: 'post',
@@ -349,13 +396,14 @@
                 cols: [
                     [
                         {type:'numbers', width:80, title: ' ', totalRowText: '合计'}
-                        // ,{field:'genDate', title: '生成日期', sort: true, templet:function(d){
-                        //     return util.toDateString(d.genDate*1000, "yyyy-MM-dd HH:mm:ss");
-                        // }}
                         ,{field:'batch', title: '批次', sort: true, minWidth: 120}
                         ,{field:'code',title: '编码', minWidth: 150}
                         ,{field:'cementName', title: '水泥厂', sort: true, minWidth: 100}
                         ,{field:'sectionName', title: '标站', minWidth: 100}
+                        ,{field:'car', title: '车辆', minWidth: 100}
+                        ,{field:'motorcadeName', title: '车队', minWidth: 100}
+                        ,{field:'routeName', title: '路线', minWidth: 100}
+                        ,{field:'huowuName', title: '货物', minWidth: 100}
                         ,{field:'state', title: '状态', templet: function (d) {
                             if(d.state == 0) {
                                 return '关闭';
@@ -366,16 +414,19 @@
                             if(d.state == 2) {
                                 return '未下发';
                             }
-                        }, minWidth: 50}
-                        ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 50}
-                        ,{field:'realUp', title: '实装(吨)', totalRow: true, minWidth: 50}
-                        ,{field:'realDown', title: '实卸(吨)', totalRow: true, minWidth: 50}
-                        ,{field:'beforeCar', title: '改派前车辆', minWidth: 50}
+                        }, minWidth: 80}
+                        ,{field:'tasks', title: '运输计划(吨)', totalRow: true, minWidth: 100}
+                        ,{field:'realUp', title: '实装(吨)', totalRow: true, minWidth: 100}
+                        ,{field:'realDown', title: '实卸(吨)', totalRow: true, minWidth: 100}
+                        ,{field:'acceptTime', title: '接单时间', minWidth: 100}
+                        ,{field:'upTime', title: '装货时间', minWidth: 100}
+                        ,{field:'downTime', title: '卸货时间', minWidth: 100}
+                        ,{field:'beforeCar', title: '改派前车辆', minWidth: 100}
                         ,{field:'upOverTime', title: '装货超时时间', minWidth: 100}
                         ,{field:'traverOverTime', title: '运输超时时间', minWidth: 100}
-                        ,{field:'fuel', title: '耗油(升)', sort: true, minWidth: 50}
-                        ,{field:'drivingTime', title: '驾驶时间(秒)', sort: true, minWidth: 50}
-                        ,{field:'mileage',  title: '路程(千米)', sort: true, minWidth: 50}
+                        ,{field:'fuel', title: '耗油(升)', sort: true, minWidth: 100}
+                        ,{field:'drivingTime', title: '驾驶时间(秒)', sort: true, minWidth: 100}
+                        ,{field:'mileage',  title: '路程(千米)', sort: true, minWidth: 100}
                         ,{field:'realUpImg',  title: '实装凭据', sort: true, templet: '#realUpImg', minWidth: 100}
                         ,{field:'realDownImg', title: '实卸凭据', sort: true, templet: '#realDownImg', minWidth: 100}
                         ,{fixed: 'right', title: '操作', align:'center', toolbar: '#mapBar', minWidth: 150}

@@ -33,13 +33,20 @@ public interface HistoryDao {
      * @param license
      * @param loadOverTime
      * @param transportOverTime
+     * @param rangeStart
+     * @param rangeEnd
+     * @param hasError
+     * @param materialId
+     * @param logistic
+     * @param motorcadeId
+     * @param carId
      * @return
      */
     List<TaskReviewHistory> fetchTaskReviewHistory(@Param("batch") String batch, @Param("cementId") String cementId, @Param("sectionId") String sectionId, @Param("state") String state,
                                                    @Param("isChangeCar") String isChangeCar, @Param("license") String license, @Param("loadOverTime") String loadOverTime,
                                                    @Param("transportOverTime") String transportOverTime, @Param("rangeStart") String rangeStart,
                                                    @Param("rangeEnd") String rangeEnd, @Param("hasError") String hasError, @Param("materialId") String materialId,
-                                                   @Param("logistic") String logistic);
+                                                   @Param("logistic") String logistic, @Param("motorcadeId") String motorcadeId, @Param("carId") String carId);
 
     /**
      * 获取任务审核历史的日期

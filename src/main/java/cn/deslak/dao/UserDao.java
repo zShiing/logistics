@@ -17,7 +17,7 @@ public interface UserDao {
      * @param id
      * @return
      */
-    User findById(String id);
+    User findById(@Param("id") String id);
 
     /**
      * 根据用户名和密码查询用户

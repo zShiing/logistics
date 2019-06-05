@@ -39,14 +39,16 @@ public class TaskReviewHistory {
      */
     private int carId;
     private String car;
+    private String motorcadeName;
     /**
      *路线ID
      */
     private int routeId;
+    private String routeName;
     /**
      *司机
      */
-    private String driver;
+    private int driver;
     /**
      *运输任务
      */

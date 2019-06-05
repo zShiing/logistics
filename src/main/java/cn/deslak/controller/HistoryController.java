@@ -40,9 +40,10 @@ public class HistoryController extends BaseController{
     @ResponseBody
     @PostMapping("/task_review_history_fetch")
     public JsonResult taskReviewHistoryFetch(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
-                                             String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic) {
+                                             String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic,
+                                             String motorcadeId, String carId) {
         return historyService.fetchTaskReviewHistory(page, limit, batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime, dateRange, hasError
-                                                    ,materialId, logistic);
+                                                    ,materialId, logistic, motorcadeId, carId);
     }
 
     @ResponseBody
