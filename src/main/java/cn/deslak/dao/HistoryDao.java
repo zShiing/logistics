@@ -53,4 +53,10 @@ public interface HistoryDao {
      */
     List<String> fetchBatchOfDaily();
 
+    /**
+     * 获取所有任务拒绝表数据
+     * @return
+     */
+    List<TaskReviewHistory> fetchTaskRefuseEdit();
+
 }

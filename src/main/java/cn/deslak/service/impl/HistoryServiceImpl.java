@@ -113,4 +113,11 @@ public class HistoryServiceImpl implements HistoryService {
             }
         }
     }
+
+    @Override
+    public JsonResult fetchTaskRefuseEdit(Integer page, Integer limit) {
+        JsonResult jsonResult = JsonResult.createSuccess();
+        jsonResult.putData("list", historyDao.fetchTaskRefuseEdit());
+        return jsonResult;
+    }
 }

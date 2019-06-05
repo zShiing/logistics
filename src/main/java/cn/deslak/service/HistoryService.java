@@ -12,4 +12,5 @@ public interface HistoryService extends BaseService{
     JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
                                       String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic);
 
+    JsonResult fetchTaskRefuseEdit(Integer page, Integer limit);
 }

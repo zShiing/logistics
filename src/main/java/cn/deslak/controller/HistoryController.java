@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 /**
  * @author zhang_xin on 2019/05/24.
  */
@@ -28,6 +26,11 @@ public class HistoryController extends BaseController{
         return "history/task_review_history";
     }
 
+    @GetMapping("/task_refuse_edit")
+    public String taskRefuseEdit() {
+        return "history/task_refuse_edit";
+    }
+
     @ResponseBody
     @GetMapping("/daily_review_history_fetch")
     public JsonResult dailyReviewHistoryFetch(Integer page, Integer limit, String batch, String section) {
@@ -40,5 +43,11 @@ public class HistoryController extends BaseController{
                                              String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic) {
         return historyService.fetchTaskReviewHistory(page, limit, batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime, dateRange, hasError
                                                     ,materialId, logistic);
+    }
+
+    @ResponseBody
+    @PostMapping("/task_refuse_edit_fetch")
+    public JsonResult fetchTaskRefuseEdit(Integer page, Integer limit) {
+        return historyService.fetchTaskRefuseEdit(page, limit);
     }
 }

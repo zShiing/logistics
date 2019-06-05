@@ -1,5 +1,7 @@
 package cn.deslak.interceptor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,9 +13,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LoginInterceptor implements HandlerInterceptor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(LoginInterceptor.class);
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return false;
+        Object user = request.getSession().getAttribute("user");
+        if(user == null) {
+            return false;
+        }
+        LOG.info("用户登录");
+        return true;
     }
 
     @Override

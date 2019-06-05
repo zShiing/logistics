@@ -174,4 +174,23 @@
         from daily_history
         group by batch
     </select>
+
+    <select id="fetchTaskRefuseEdit" resultMap="TaskReviewHistoryResultMap">
+        select task_history_edit_.id as id, task_history_edit_.code as code, cement_.name as cementName, section_.name as sectionName, task_history_edit_.state as state,
+        task_history_edit_.batch as batch, task_history_edit_.tasks as tasks, task_history_edit_.real_up as real_up, task_history_edit_.real_down as real_down, task_history_edit_.gen_date as gen_date,
+        task_history_edit_.beforeCar as beforeCar, task_history_edit_.upOverTime as upOverTime, task_history_edit_.traverOverTime as traverOverTime, task_history_edit_.accept_time as accept_time,
+        task_history_edit_.down_time as down_time, car_.license as car, task_history_edit_.real_up_img as real_up_img, task_history_edit_.real_down_img as real_down_img,
+        task_history_edit_.errorMsg as errorMsg
+        from task_refuse_edit task_history_edit_
+        inner join cement cement_ on task_history_edit_.cement_id = cement_.id
+        inner join section section_ on task_history_edit_.section_id = section_.id
+        inner join car car_ on task_history_edit_.car_id = car_id
+        inner join route route_ on task_history_edit_.route_id = route_.id
+        inner join materials materials_ on route_.mat_id = materials_.id
+        group by id
+    </select>
+
+    <insert id="syncRefuseEdit">
+        insert into task_refuse_edit (select * from task_refuse)
+    </insert>
 </mapper>
