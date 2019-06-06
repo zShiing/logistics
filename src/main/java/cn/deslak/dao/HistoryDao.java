@@ -1,11 +1,13 @@
 package cn.deslak.dao;
 
 import cn.deslak.entity.DailyReviewHistory;
+import cn.deslak.entity.TaskRefuseEdit;
 import cn.deslak.entity.TaskReviewHistory;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -70,12 +72,23 @@ public interface HistoryDao {
 
     /**
      * 修改值
-     * @param field
-     * @param value
+     * @param tasks
+     * @param realUp
+     * @param realDown
+     * @param beforeCar
+     * @param upOverTime
+     * @param traverOverTime
+     * @return
+     */
+    Integer taskRefuseEditUpdate(@Param("tasks") BigDecimal tasks, @Param("realUp") BigDecimal realUp, @Param("realDown") BigDecimal realDown,
+                                 @Param("beforeCar") String beforeCar, @Param("upOverTime") String upOverTime, @Param("traverOverTime") String traverOverTime);
+
+    /**
+     * 根据编号查找任务拒绝单
      * @param code
      * @return
      */
-    Integer taskRefuseEditUpdate(@Param("field") String field, @Param("value") String value, @Param("code") String code);
+    TaskRefuseEdit findTaskRefuseEditByCode(@Param("code") String code);
 
     /**
      * 同步任务拒绝

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 /**
  * @author zhang_xin on 2019/05/24.
  */
@@ -59,8 +61,8 @@ public class HistoryController extends BaseController{
 
     @ResponseBody
     @GetMapping("/task_refuse_edit_update")
-    public JsonResult taskRefuseEditUpdate(String field, String value, String code) {
-        return historyService.taskRefuseEditUpdate(field, value, code);
+    public JsonResult taskRefuseEditUpdate(BigDecimal tasks, BigDecimal realUp, BigDecimal realDown, String beforeCar, String upOverTime, String traverOverTime) {
+        return historyService.taskRefuseEditUpdate(tasks, realUp, realDown, beforeCar, upOverTime, traverOverTime);
     }
 
     @ResponseBody

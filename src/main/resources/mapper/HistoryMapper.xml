@@ -207,13 +207,40 @@
         task_history_edit_.batch as batch, task_history_edit_.tasks as tasks, task_history_edit_.real_up as real_up, task_history_edit_.real_down as real_down, task_history_edit_.gen_date as gen_date,
         task_history_edit_.beforeCar as beforeCar, task_history_edit_.upOverTime as upOverTime, task_history_edit_.traverOverTime as traverOverTime, task_history_edit_.accept_time as accept_time,
         task_history_edit_.down_time as down_time, car_.license as car, task_history_edit_.real_up_img as real_up_img, task_history_edit_.real_down_img as real_down_img,
-        task_history_edit_.errorMsg as errorMsg
+        task_history_edit_.errorMsg as errorMsg, motorcade_.name as motorcadeName, route_.name as routeName, task_history_edit_.weight as weight, task_history_edit_.weight2 as weight2,
+        task_history_edit_.pass1 as pass1, task_history_edit_.pass2 as pass2, task_history_edit_.fin_time as fin_time, task_history_edit_.huowu_name as huowu_name, task_history_edit_.up_time as up_time,
+        task_history_edit_.remarkUp as remarkUp, task_history_edit_.remarkDown as remarkDown
         from task_refuse_edit task_history_edit_
         inner join cement cement_ on task_history_edit_.cement_id = cement_.id
         inner join section section_ on task_history_edit_.section_id = section_.id
         inner join car car_ on task_history_edit_.car_id = car_id
+        inner join motorcade motorcade_ on car_.moto_id = motorcade_.id
         inner join route route_ on task_history_edit_.route_id = route_.id
         inner join materials materials_ on route_.mat_id = materials_.id
+        inner join huowu huowu_ on task_history_edit_.huowu_id = huowu_.id
+        group by id
+    </select>
+
+    <select id="findTaskRefuseEditByCode" resultType="cn.deslak.entity.TaskRefuseEdit">
+        select task_history_edit_.id as id, task_history_edit_.code as code, cement_.name as cementName, section_.name as sectionName, task_history_edit_.state as state,
+        task_history_edit_.batch as batch, task_history_edit_.tasks as tasks, task_history_edit_.real_up as realUp, task_history_edit_.real_down as realDown, task_history_edit_.gen_date as gen_date,
+        task_history_edit_.beforeCar as beforeCar, task_history_edit_.upOverTime as upOverTime, task_history_edit_.traverOverTime as traverOverTime, task_history_edit_.accept_time as acceptTime,
+        task_history_edit_.up_time as upTime, task_history_edit_.down_time as downTime, car_.license as car, task_history_edit_.real_up_img as realUpImg, task_history_edit_.real_down_img as realDownImg,
+        task_history_edit_.errorMsg as errorMsg, motorcade_.name as motorcadeName, route_.name as routeName, task_history_edit_.weight as weight, task_history_edit_.weight2 as weight2,
+        task_history_edit_.pass1 as pass1, task_history_edit_.pass2 as pass2, task_history_edit_.fin_time as fin_time, task_history_edit_.huowu_name as huowu_name, task_history_edit_.up_time as up_time,
+        task_history_edit_.remarkUp as remarkUp, task_history_edit_.remarkDown as remarkDown
+        from task_refuse_edit task_history_edit_
+        inner join cement cement_ on task_history_edit_.cement_id = cement_.id
+        inner join section section_ on task_history_edit_.section_id = section_.id
+        inner join car car_ on task_history_edit_.car_id = car_id
+        inner join motorcade motorcade_ on car_.moto_id = motorcade_.id
+        inner join route route_ on task_history_edit_.route_id = route_.id
+        inner join materials materials_ on route_.mat_id = materials_.id
+        inner join huowu huowu_ on task_history_edit_.huowu_id = huowu_.id
+        where 1 = 1
+        <if test="code != null and code != ''">
+            and code = #{code}
+        </if>
         group by id
     </select>
 
@@ -221,7 +248,7 @@
         insert into task_refuse_edit( select * from task_refuse where code not in (select code from task_refuse_edit))
     </insert>
 
-    <update id="taskRefuseEditUpdate" parameterType="java.lang.String">
+    <update id="taskRefuseEditUpdate">
         update task_refuse_edit
         <set>
             <if test="field = 'tasks'">tasks</if>

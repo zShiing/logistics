@@ -2,6 +2,7 @@ package cn.deslak.service.impl;
 
 import cn.deslak.dao.HistoryDao;
 import cn.deslak.entity.DailyReviewHistory;
+import cn.deslak.entity.TaskRefuseEdit;
 import cn.deslak.entity.TaskReviewHistory;
 import cn.deslak.service.DataService;
 import cn.deslak.service.HistoryService;
@@ -129,13 +130,18 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public JsonResult taskRefuseEditUpdate(String field, String value, String code) {
+    public JsonResult taskRefuseEditUpdate(BigDecimal tasks, BigDecimal realUp, BigDecimal realDown, String beforeCar, String upOverTime, String traverOverTime) {
         JsonResult jsonResult = JsonResult.createSuccess();
-        Integer result = historyDao.taskRefuseEditUpdate(field, value, code);
-        if(result < 0) {
-            return JsonResult.createFaild("修改失败");
+        Integer result = historyDao.taskRefuseEditUpdate(tasks, realUp, realDown, beforeCar, upOverTime, traverOverTime);
+        if(result <= 0) {
+            JsonResult.createFaild("修改失败！");
         }
         return jsonResult;
+    }
+
+    @Override
+    public TaskRefuseEdit findTaskRefuseEditByCode(String code) {
+        return historyDao.findTaskRefuseEditByCode(code);
     }
 
     @Override
