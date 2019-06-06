@@ -26,7 +26,6 @@ public class LoginInterceptor implements HandlerInterceptor {
         User user = (User) request.getSession().getAttribute("user");
         if(!(request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest"))) {
             if(user != null && null != userService.findById(user.getId())) {
-                LOG.info("用户登录");
                 return true;
             }
         }else {

@@ -157,6 +157,18 @@
             and LEFT ( task_history_.batch, 10 ) &gt;= #{rangeStart}
             and LEFT ( task_history_.batch, 10 ) &lt;= #{rangeEnd}
         </if>
+        <if test="acceptTimeStart != null and acceptTimeEnd != null">
+            and task_history_.accept_time &gt;= #{acceptTimeStart}
+            and task_history_.accept_time &lt;= #{acceptTimeEnd}
+        </if>
+        <if test="upTimeStart != null and upTimeEnd != null">
+            and task_history_.up_time &gt;= #{upTimeStart}
+            and task_history_.up_time &lt;= #{upTimeEnd}
+        </if>
+        <if test="downTimeStart != null and downTimeEnd != null">
+            and task_history_.down_time &gt;= #{downTimeStart}
+            and task_history_.down_time &lt;= #{downTimeEnd}
+        </if>
         <if test="hasError != -1 and hasError == 1">
             and task_history_.errorMsg is not null
         </if>

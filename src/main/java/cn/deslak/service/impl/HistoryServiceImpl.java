@@ -52,12 +52,21 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public JsonResult fetchTaskReviewHistory(Integer page, Integer limit, String batch, String cementId, String sectionId, String state, String isChangeCar, String license,
                                              String loadOverTime, String transportOverTime, String dateRange, String hasError, String materialId, String logistic,
-                                             String motorcadeId, String carId) {
+                                             String motorcadeId, String carId, String acceptTime, String upTime, String downTime) {
         PageHelper.startPage(page,limit);
         String[] range = DateUtil.splitOnLayuiDateRangeString(dateRange);
+        String[] acceptTimeRange = DateUtil.splitOnLayuiDateRangeString(acceptTime);
+        String[] upTimeRange = DateUtil.splitOnLayuiDateRangeString(upTime);
+        String[] downTimeRange = DateUtil.splitOnLayuiDateRangeString(downTime);
         List<TaskReviewHistory> list = historyDao.fetchTaskReviewHistory(batch, cementId, sectionId, state, isChangeCar, license, loadOverTime, transportOverTime,
                                                                         range == null ? null : range[0], range == null ? null : range[1], hasError, materialId, logistic,
-                                                                        motorcadeId, carId);
+                                                                        motorcadeId, carId,
+                                                                        acceptTimeRange == null ? null : acceptTimeRange[0],
+                                                                        acceptTimeRange == null ? null : acceptTimeRange[1],
+                                                                        upTimeRange == null ? null : upTimeRange[0],
+                                                                        upTimeRange == null ? null : upTimeRange[1],
+                                                                        downTimeRange == null ? null : downTimeRange[0],
+                                                                        downTimeRange == null ? null : downTimeRange[1]);
         PageInfo<TaskReviewHistory> pageInfo = new PageInfo(list);
         addValueForProps(pageInfo.getList());
         setImgUrl(pageInfo.getList());

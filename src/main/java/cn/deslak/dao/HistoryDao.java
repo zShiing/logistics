@@ -46,7 +46,9 @@ public interface HistoryDao {
                                                    @Param("isChangeCar") String isChangeCar, @Param("license") String license, @Param("loadOverTime") String loadOverTime,
                                                    @Param("transportOverTime") String transportOverTime, @Param("rangeStart") String rangeStart,
                                                    @Param("rangeEnd") String rangeEnd, @Param("hasError") String hasError, @Param("materialId") String materialId,
-                                                   @Param("logistic") String logistic, @Param("motorcadeId") String motorcadeId, @Param("carId") String carId);
+                                                   @Param("logistic") String logistic, @Param("motorcadeId") String motorcadeId, @Param("carId") String carId,
+                                                   @Param("acceptTimeStart") String acceptTimeStart, @Param("acceptTimeEnd") String acceptTimeEnd, @Param("upTimeStart") String upTimeStart,
+                                                   @Param("upTimeEnd") String upTimeEnd, @Param("downTimeStart") String downTimeStart, @Param("downTimeEnd") String downTimeEnd);
 
     /**
      * 获取任务审核历史的日期

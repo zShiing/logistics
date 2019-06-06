@@ -107,14 +107,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">车队</label>
-                        <div class="layui-input-inline">
-                            <select id="motorcadeId"  lay-search="">
-                                <option value="-1">未选择</option>
-                            </select>
-                        </div>
-                    </div>
+<!--                    <div class="layui-inline">-->
+<!--                        <label class="layui-form-label">车队</label>-->
+<!--                        <div class="layui-input-inline">-->
+<!--                            <select id="motorcadeId"  lay-search="">-->
+<!--                                <option value="-1">未选择</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="layui-inline">
                         <label class="layui-form-label">车辆</label>
                         <div class="layui-input-inline">
@@ -164,14 +164,17 @@
         var laydate = layui.laydate;
         laydate.render({
             elem: '#acceptTime'
+            ,type: 'datetime'
             ,range: true
         });
         laydate.render({
             elem: '#upTime'
+            ,type: 'datetime'
             ,range: true
         });
         laydate.render({
             elem: '#downTime'
+            ,type: 'datetime'
             ,range: true
         });
         var table = layui.table;
@@ -364,12 +367,14 @@
         var isChangeCar = $('#isChangeCar').val();
         var loadOverTime = $('#loadOverTime').val();
         var transportOverTime = $('#transportOverTime').val();
-        var dateRange = $('#dateRange').val();logistic
         var hasError = $('#hasError').val();
         var materialId = $('#materialId').val();
         var logistic = $('#logistic').val();
         var motorcadeId = $('#motorcadeId').val();
         var carId = $('#carId').val();
+        var acceptTime = $('#acceptTime').val();
+        var upTime = $('#upTime').val();
+        var downTime = $('#downTime').val();
         layui.use(['table', 'util'], function () {
             var table = layui.table;
             var util = layui.util;
@@ -386,12 +391,14 @@
                     license: license,
                     loadOverTime: loadOverTime,
                     transportOverTime: transportOverTime,
-                    dateRange: dateRange,
                     hasError: hasError,
                     materialId: materialId,
                     logistic: logistic,
                     motorcadeId: motorcadeId,
-                    carId: carId
+                    carId: carId,
+                    acceptTime: acceptTime,
+                    upTime: upTime,
+                    downTime: downTime
                 },
                 page: true,
                 method: 'post',

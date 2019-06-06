@@ -23,7 +23,7 @@ public class SessionConfig implements WebMvcConfigurer {
         registry.addInterceptor(localInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
-                .excludePathPatterns("/login/index")
+                .excludePathPatterns("/index")
                 .excludePathPatterns("/static/**");
     }
 
